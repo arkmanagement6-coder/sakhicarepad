@@ -10,77 +10,72 @@ const CONFIG = {
 const INITIAL_PROGRAMS = [
     {
         id: 'p1',
-        title: 'मासिक धर्म स्वच्छता जागरूकता',
-        titleEn: 'Menstrual Hygiene Awareness',
-        shortDesc: 'गांव-गांव जाकर महिलाओं और बेटियों को period hygiene की जानकारी देना।',
+        title: 'Menstrual Hygiene Awareness',
+        shortDesc: 'Spreading awareness about period hygiene and sanitation across villages.',
         image: 'assets/images/menstrual_hygiene_program.png',
         status: 'Active',
         category: 'Awareness',
         content: {
-            about: 'SakhiHub गांव-गांव जाकर महिलाओं और बेटियों को period hygiene, sanitary pad use, infection prevention, safe disposal और health awareness की जानकारी देता है।',
-            problem: 'Lack of awareness and taboos around menstruation leading to infections.',
-            solution: 'Educational workshops and access to quality pads.',
-            activities: ['Community Awareness', 'School Sessions', 'Distribution']
+            about: 'SakhiHub conducts awareness camps in rural areas to educate women and girls about period hygiene, sanitary pad usage, infection prevention, and safe disposal.',
+            problem: 'Lack of awareness and taboos around menstruation leading to health complications.',
+            solution: 'Educational workshops and access to affordable, high-quality sanitary products.',
+            activities: ['Community Awareness Camps', 'School & College Sessions', 'Sanitary Pad Distribution']
         }
     },
     {
         id: 'p2',
-        title: 'महिला स्वास्थ्य एवं स्वच्छता',
-        titleEn: 'Health & Hygiene Awareness',
-        shortDesc: 'महिलाओं के संपूर्ण स्वास्थ्य और व्यक्तिगत स्वच्छता के लिए समर्पित।',
+        title: 'Health & Hygiene Awareness',
+        shortDesc: 'Dedicated to overall women health and personal sanitation.',
         image: 'assets/images/health_awareness.png',
         status: 'Active',
         category: 'Health',
         content: {
-            about: 'Comprehensive health programs for rural women.',
-            problem: 'Poor healthcare facilities and general health ignorance.',
-            solution: 'Mobile health checkups and nutrition education.',
-            activities: ['Health Camps', 'Nutrition Guide', 'Mental Health Support']
+            about: 'Our comprehensive health program focuses on general wellness, preventive care, and nutrition for rural women.',
+            problem: 'Limited access to healthcare and lack of basic health knowledge.',
+            solution: 'Mobile health checkups, nutrition counseling, and wellness workshops.',
+            activities: ['Free Health Camps', 'Nutrition Guidance', 'Mental Health Awareness']
         }
     },
     {
         id: 'p3',
-        title: 'महिला सशक्तिकरण',
-        titleEn: 'Women Empowerment',
-        shortDesc: 'महिलाओं को सामाजिक और आर्थिक रूप से सशक्त बनाना।',
+        title: 'Women Empowerment',
+        shortDesc: 'Empowering women socially and economically for a better future.',
         image: 'assets/images/women_employment_program.png',
         status: 'Active',
         category: 'Empowerment',
         content: {
-            about: 'Social and economic empowerment through networking.',
-            problem: 'Gender inequality and lack of decision-making power.',
-            solution: 'Self-Help Groups (SHG) and leadership training.',
-            activities: ['Group Formation', 'Leadership Workshops', 'Financial Literacy']
+            about: 'Building a support network that empowers women to take control of their social and economic lives.',
+            problem: 'Gender inequality and limited financial independence.',
+            solution: 'Formation of Self-Help Groups (SHGs) and leadership training.',
+            activities: ['SHG Network Formation', 'Leadership Workshops', 'Financial Literacy Training']
         }
     },
     {
         id: 'p4',
-        title: 'शिक्षा एवं कौशल विकास',
-        titleEn: 'Education & Skill Development',
-        shortDesc: 'आधुनिक कौशलों के साथ महिलाओं के भविष्य का निर्माण।',
+        title: 'Education & Skill Development',
+        shortDesc: 'Building the future of women through modern vocational skills.',
         image: 'assets/images/hero3.png',
         status: 'Active',
         category: 'Skill',
         content: {
-            about: 'Skill training programs for better employability.',
-            problem: 'Skill gap in rural areas.',
-            solution: 'Certified vocational training courses.',
-            activities: ['Tailoring', 'Digital Literacy', 'Handicrafts']
+            about: 'Equipping women with practical skills to increase their employability and income potential.',
+            problem: 'Significant skill gap and lack of vocational opportunities in villages.',
+            solution: 'Certified training courses in high-demand vocational fields.',
+            activities: ['Advanced Tailoring', 'Digital Literacy', 'Handicraft Training']
         }
     },
     {
         id: 'p5',
-        title: 'MSME एवं व्यापार सहायता',
-        titleEn: 'MSME & Business Support',
-        shortDesc: 'स्वयं का व्यवसाय शुरू करने के अवसर और आर्थिक आजादी।',
+        title: 'MSME & Business Support',
+        shortDesc: 'Creating opportunities for startups and financial independence.',
         image: 'assets/images/msme_support.png',
         status: 'Active',
         category: 'Business',
         content: {
-            about: 'Creating entrepreneurs at the village level.',
-            problem: 'Unemployment and financial dependency.',
-            solution: 'MSME support and delivery partner network.',
-            activities: ['MSME Registration', 'Business Mentorship', 'Market Linkage']
+            about: 'Fostering local entrepreneurship by supporting women-led micro-enterprises.',
+            problem: 'Lack of capital and business knowledge for starting small ventures.',
+            solution: 'MSME registration assistance, mentorship, and market connectivity.',
+            activities: ['MSME Registration Help', 'Business Mentorship', 'Supply Chain Integration']
         }
     }
 ];
