@@ -157,12 +157,12 @@ nav.scrolled .logo span {
 }
 
 nav.scrolled .nav-links a {
-    color: var(--text-dark);
+    color: var(--primary); /* Pink on scroll */
     text-shadow: none;
 }
 
 nav.scrolled .nav-links a:hover {
-    color: var(--primary);
+    color: var(--secondary);
 }
 
 nav.scrolled .logo img {
