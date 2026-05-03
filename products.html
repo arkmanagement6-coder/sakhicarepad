@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -30,7 +30,7 @@
                     <li><a href="delivery-partner.html">Delivery Partner</a></li>
                 </ul>
             </li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="contact.html">Contact</a></li>`n            <li><a href="employee-login.html">Employee Portal</a></li>
         </ul>
         <a href="hiring.html" class="btn btn-primary nav-btn">Join Mission</a>
     </nav>
@@ -80,8 +80,8 @@
                     <h3 style="margin-bottom: 0.5rem; font-size: 1.8rem;">${p.name}</h3>
                     <p style="color: var(--text-muted); margin-bottom: 1rem; font-weight: 600;">${p.pads}</p>
                     <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                        <span style="font-size: 1.2rem; text-decoration: line-through; color: #999;">MRP â‚¹${p.mrp}</span>
-                        <span style="font-size: 1.8rem; color: var(--primary); font-weight: 700;">â‚¹${p.price}</span>
+                        <span style="font-size: 1.2rem; text-decoration: line-through; color: #999;">MRP ₹${p.mrp}</span>
+                        <span style="font-size: 1.8rem; color: var(--primary); font-weight: 700;">₹${p.price}</span>
                     </div>
                     <ul style="list-style: none; margin-bottom: 2rem; font-size: 0.9rem;">
                         ${p.features.map(f => `<li style="margin-bottom: 0.3rem;"><i class="fas fa-check" style="color: var(--secondary);"></i> ${f}</li>`).join('')}
@@ -138,6 +138,7 @@
     </footer>
 </body>
 </html>
+
 
 
 
