@@ -207,6 +207,10 @@ nav.scrolled .logo img {
     list-style: none;
 }
 
+.nav-links li {
+    position: relative;
+}
+
 .nav-links li a {
     text-decoration: none;
     color: var(--white);
@@ -219,7 +223,9 @@ nav.scrolled .logo img {
     border: 1px solid rgba(255,255,255,0.2);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     background: transparent;
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .nav-links li a:hover {
@@ -228,6 +234,55 @@ nav.scrolled .logo img {
     border-color: var(--white);
     transform: translateY(-2px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* Dropdown Menu Styling */
+.dropdown-menu {
+    position: absolute;
+    top: 120%;
+    left: 0;
+    width: 220px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    padding: 1rem 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    list-style: none;
+    z-index: 1000;
+}
+
+.dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu li {
+    width: 100%;
+}
+
+.dropdown-menu li a {
+    color: #444 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    padding: 0.8rem 1.5rem !important;
+    text-transform: none !important;
+    font-weight: 500 !important;
+    font-size: 0.95rem !important;
+    display: block !important;
+    box-shadow: none !important;
+    transform: none !important;
+    letter-spacing: 0 !important;
+}
+
+.dropdown-menu li a:hover {
+    background: rgba(240, 0, 120, 0.05) !important;
+    color: var(--primary) !important;
+    padding-left: 1.8rem !important;
 }
 
 nav.scrolled .nav-links li a {
