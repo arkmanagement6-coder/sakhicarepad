@@ -14,6 +14,9 @@
         <div class="logo">
             <img src="assets/branding/logo_icon.jpg" alt="Sakhi Hub Logo" style="height: 45px; border-radius: 50%;"> <span>SAKHI HUB</span>
         </div>
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li class="dropdown">
@@ -223,7 +226,7 @@
 
         // Load programs
         const programGrid = document.getElementById('program-grid');
-        const programs = db.getPrograms().slice(0, 3); // Only show top 3 on home
+        const programs = db.getPrograms().slice(0, 3);
 
         programs.forEach(p => {
             const card = document.createElement('div');
@@ -240,16 +243,6 @@
             programGrid.appendChild(card);
         });
 
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
-
         // Hero Slider Logic
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
@@ -260,8 +253,8 @@
             dots.forEach(d => d.classList.remove('active'));
             
             currentSlide = (n + slides.length) % slides.length;
-            slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
+            if (slides[currentSlide]) slides[currentSlide].classList.add('active');
+            if (dots[currentSlide]) dots[currentSlide].classList.add('active');
         }
 
         window.goToSlide = function(n) {
@@ -321,5 +314,7 @@
             </div>
         </div>
     </footer>
+<script src="js/main.js"></script>
 </body>
 </html>
+
