@@ -26,7 +26,7 @@ const INITIAL_PROGRAMS = [
     {
         id: 'p2',
         title: 'महिला स्वास्थ्य एवं स्वच्छता',
-        titleEn: 'Women Health & Hygiene',
+        titleEn: 'Health & Hygiene Awareness',
         shortDesc: 'महिलाओं के संपूर्ण स्वास्थ्य और व्यक्तिगत स्वच्छता के लिए समर्पित।',
         image: 'assets/images/health_awareness.png',
         status: 'Active',
@@ -70,10 +70,10 @@ const INITIAL_PROGRAMS = [
     },
     {
         id: 'p5',
-        title: 'रोजगार एवं आत्मनिर्भरता',
-        titleEn: 'Employment & Independence',
+        title: 'MSME एवं व्यापार सहायता',
+        titleEn: 'MSME & Business Support',
         shortDesc: 'स्वयं का व्यवसाय शुरू करने के अवसर और आर्थिक आजादी।',
-        image: 'assets/images/hero2.png',
+        image: 'assets/images/msme_support.png',
         status: 'Active',
         category: 'Business',
         content: {
@@ -114,9 +114,9 @@ class Database {
     }
 
     init() {
-        if (!localStorage.getItem('sakhi_programs')) {
-            localStorage.setItem('sakhi_programs', JSON.stringify(INITIAL_PROGRAMS));
-        }
+        // Force refresh programs to fix broken image paths
+        localStorage.setItem('sakhi_programs', JSON.stringify(INITIAL_PROGRAMS));
+        
         if (!localStorage.getItem('sakhi_products')) {
             localStorage.setItem('sakhi_products', JSON.stringify(INITIAL_PRODUCTS));
         }
