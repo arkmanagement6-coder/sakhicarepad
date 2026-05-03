@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Member View | SakhiHub Admin</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { display: flex; background: #f0f2f5; }
+        .sidebar { width: 280px; height: 100vh; background: #1a1a1a; color: white; padding: 2rem; position: fixed; }
+        .main-content { margin-left: 280px; width: calc(100% - 280px); padding: 3rem; }
+        .sidebar-links { list-style: none; margin-top: 3rem; }
+        .sidebar-links a { color: #ccc; text-decoration: none; display: flex; align-items: center; gap: 1rem; padding: 0.8rem 1rem; border-radius: 10px; }
+        .sidebar-links a.active { background: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo"><img src="../assets/branding/logo_icon.jpg" style="height: 35px; border-radius: 50%;"> SAKHI HUB</div>
+        <ul class="sidebar-links">
+            <li><a href="index.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="employees.html"><i class="fas fa-user-friends"></i> Team Management</a></li>
+            <li><a href="groups.html"><i class="fas fa-users"></i> Groups</a></li>
+            <li><a href="members.html" class="active"><i class="fas fa-female"></i> Members</a></li>
+            <li><a href="programs.html"><i class="fas fa-tasks"></i> Programs</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>Women Member Directory</h1>
+        <p style="color: var(--text-muted); margin-bottom: 3rem;">View and manage all registered women members across India.</p>
+
+        <div class="glass" style="padding: 2rem; border-radius: 20px; background: white;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="text-align: left; border-bottom: 2px solid #eee;">
+                        <th style="padding: 1rem;">Member Name</th>
+                        <th style="padding: 1rem;">Contact</th>
+                        <th style="padding: 1rem;">Group / Employee</th>
+                        <th style="padding: 1rem;">Interest</th>
+                        <th style="padding: 1rem;">Membership</th>
+                    </tr>
+                </thead>
+                <tbody id="mTableBody">
+                    <!-- Loaded via JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="module">
+        import { db } from '../js/db.js';
+        import { auth } from '../js/auth.js';
+
+        auth.checkAccess(['Admin']);
+        const tableBody = document.getElementById('mTableBody');
+
+        function loadMembers() {
+            const members = db.getMembers();
+            const groups = db.getGroups();
+            const users = db.getUsers();
+            
+            tableBody.innerHTML = '';
+            members.forEach(m => {
+                const group = groups.find(g => g.id === m.groupId);
+                const employee = users.find(u => u.id === m.addedBy);
+                const tr = document.createElement('tr');
+                tr.style.borderBottom = '1px solid #eee';
+                
+                tr.innerHTML = `
+                    <td style="padding: 1rem;"><strong>${m.name}</strong><br><small>Age: ${m.age || 'N/A'}</small></td>
+                    <td style="padding: 1rem;">${m.mobile}</td>
+                    <td style="padding: 1rem;">${group ? group.name : 'N/A'}<br><small>By: ${employee ? employee.name : 'N/A'}</small></td>
+                    <td style="padding: 1rem;">${m.interest}</td>
+                    <td style="padding: 1rem;"><span style="background: ${m.membershipStatus === 'Paid' ? '#dcfce7' : '#f1f5f9'}; color: ${m.membershipStatus === 'Paid' ? '#166534' : '#64748b'}; padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.8rem; font-weight: 600;">${m.membershipStatus}</span></td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        loadMembers();
+    </script>
+</body>
+</html>

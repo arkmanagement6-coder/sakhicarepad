@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Active Campaigns | SakhiHub</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { display: flex; background: #f8fafc; }
+        .sidebar { width: 280px; background: #1e293b; color: white; padding: 2rem; position: fixed; height: 100vh; }
+        .main-content { margin-left: 280px; width: calc(100% - 280px); padding: 3rem; }
+        .sidebar-links { list-style: none; margin-top: 3rem; }
+        .sidebar-links a { color: #cbd5e1; text-decoration: none; display: flex; align-items: center; gap: 1rem; padding: 0.8rem 1rem; border-radius: 12px; }
+        .sidebar-links a:hover, .sidebar-links a.active { background: var(--primary); color: white; }
+        .campaign-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid #e2e8f0; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo"><img src="../assets/branding/logo_icon.jpg" style="height: 35px; border-radius: 50%;"> SAKHI HUB</div>
+        <ul class="sidebar-links">
+            <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="campaigns.html" class="active"><i class="fas fa-bullhorn"></i> Active Campaigns</a></li>
+            <li><a href="groups.html"><i class="fas fa-users"></i> My Groups</a></li>
+            <li><a href="members.html"><i class="fas fa-user-plus"></i> Add Member</a></li>
+            <li><a href="membership.html"><i class="fas fa-money-check-alt"></i> Collection</a></li>
+            <li><a href="reports.html"><i class="fas fa-file-alt"></i> Daily Report</a></li>
+            <li><a href="profile.html"><i class="fas fa-user-circle"></i> My Profile</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>Active Campaigns</h1>
+        <p style="color: #64748b; margin-bottom: 3rem;">Access training materials and resources for ongoing campaigns.</p>
+
+        <div id="campaignGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
+            <!-- Loaded via JS -->
+        </div>
+    </div>
+
+    <script type="module">
+        import { db } from '../js/db.js';
+        import { auth } from '../js/auth.js';
+
+        auth.checkAccess(['Block Employee', 'Volunteer', 'District Coordinator']);
+        const grid = document.getElementById('campaignGrid');
+
+        function loadCampaigns() {
+            const campaigns = db.getCampaigns();
+            grid.innerHTML = '';
+            
+            campaigns.forEach(c => {
+                const card = document.createElement('div');
+                card.className = 'campaign-card animate-up';
+                card.innerHTML = `
+                    <div style="padding: 2rem;">
+                        <span style="background: #dcfce7; color: #166534; padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.75rem; font-weight: 600;">${c.status}</span>
+                        <h3 style="margin: 1rem 0;">${c.title}</h3>
+                        <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem;">${c.desc}</p>
+                        
+                        <div style="background: #f8fafc; padding: 1.2rem; border-radius: 12px; margin-bottom: 1.5rem;">
+                            <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 0.5rem;">Target Audience:</div>
+                            <div style="font-weight: 600;">${c.target}</div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <button class="btn btn-outline" style="font-size: 0.8rem;"><i class="fas fa-file-pdf"></i> Training PDF</button>
+                            <button class="btn btn-outline" style="font-size: 0.8rem;"><i class="fas fa-image"></i> Posters</button>
+                        </div>
+                    </div>
+                    <div style="padding: 1.5rem; background: #f1f5f9; border-top: 1px solid #e2e8f0; text-align: center;">
+                        <a href="reports.html?campaignId=${c.id}" style="color: var(--primary); font-weight: 600; text-decoration: none;">Mark Activity Done</a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        loadCampaigns();
+    </script>
+</body>
+</html>

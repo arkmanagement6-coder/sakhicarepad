@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Groups | SakhiHub</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { display: flex; background: #f8fafc; }
+        .sidebar { width: 280px; background: #1e293b; color: white; padding: 2rem; position: fixed; height: 100vh; }
+        .main-content { margin-left: 280px; width: calc(100% - 280px); padding: 3rem; }
+        .sidebar-links { list-style: none; margin-top: 3rem; }
+        .sidebar-links a { color: #cbd5e1; text-decoration: none; display: flex; align-items: center; gap: 1rem; padding: 0.8rem 1rem; border-radius: 12px; }
+        .sidebar-links a:hover, .sidebar-links a.active { background: var(--primary); color: white; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1001; align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 2.5rem; border-radius: 20px; width: 500px; max-width: 90%; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo"><img src="../assets/branding/logo_icon.jpg" style="height: 35px; border-radius: 50%;"> SAKHI HUB</div>
+        <ul class="sidebar-links">
+            <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="groups.html" class="active"><i class="fas fa-users"></i> My Groups</a></li>
+            <li><a href="members.html"><i class="fas fa-user-plus"></i> Add Member</a></li>
+            <li><a href="membership.html"><i class="fas fa-money-check-alt"></i> Collection</a></li>
+            <li><a href="reports.html"><i class="fas fa-file-alt"></i> Daily Report</a></li>
+            <li><a href="profile.html"><i class="fas fa-user-circle"></i> My Profile</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+            <h1>My Women Groups</h1>
+            <button class="btn btn-primary" onclick="openModal()"><i class="fas fa-plus"></i> Create New Group</button>
+        </div>
+
+        <div class="glass" style="padding: 2rem; border-radius: 24px; background: white;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="text-align: left; border-bottom: 2px solid #f1f5f9; color: #64748b;">
+                        <th style="padding: 1rem;">Group Name</th>
+                        <th style="padding: 1rem;">Village / Block</th>
+                        <th style="padding: 1rem;">Leader Name</th>
+                        <th style="padding: 1rem;">Members</th>
+                        <th style="padding: 1rem;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="groupTableBody">
+                    <!-- Loaded via JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Create Group Modal -->
+    <div id="groupModal" class="modal">
+        <div class="modal-content glass">
+            <h2 style="margin-bottom: 1.5rem;">Create Women Group</h2>
+            <form id="groupForm">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem;">Group Name *</label>
+                    <input type="text" name="name" required placeholder="e.g. Mahila Shakti Group">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem;">Village Name *</label>
+                    <input type="text" name="village" required placeholder="Enter village">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem;">Block *</label>
+                        <input type="text" name="block" required placeholder="Block">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem;">District *</label>
+                        <input type="text" name="district" required placeholder="District">
+                    </div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem;">Group Leader Name *</label>
+                    <input type="text" name="leader" required placeholder="Leader's name">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem;">Leader Mobile *</label>
+                    <input type="tel" name="leaderMobile" required placeholder="10-digit number">
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button type="button" class="btn btn-outline" style="flex: 1;" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Save Group</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { db } from '../js/db.js';
+        import { auth } from '../js/auth.js';
+
+        const user = auth.checkAccess(['Block Employee', 'Volunteer']);
+        const tableBody = document.getElementById('groupTableBody');
+        const modal = document.getElementById('groupModal');
+
+        window.openModal = () => modal.style.display = 'flex';
+        window.closeModal = () => modal.style.display = 'none';
+
+        function loadGroups() {
+            const groups = db.getGroups().filter(g => g.createdBy === user.id);
+            if (groups.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" style="padding: 3rem; text-align: center; color: #999;">No groups created yet. Click "Create New Group" to start.</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = '';
+            groups.forEach(g => {
+                const tr = document.createElement('tr');
+                tr.style.borderBottom = '1px solid #f1f5f9';
+                tr.innerHTML = `
+                    <td style="padding: 1rem; font-weight: 600;">${g.name}</td>
+                    <td style="padding: 1rem;">${g.village}, ${g.block}</td>
+                    <td style="padding: 1rem;">${g.leader}</td>
+                    <td style="padding: 1rem;"><span style="background: var(--bg-light); padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.8rem;">${g.membersCount || 0}</span></td>
+                    <td style="padding: 1rem;">
+                        <a href="members.html?groupId=${g.id}" style="color: var(--primary); margin-right: 1rem;"><i class="fas fa-plus-circle"></i> Add Member</a>
+                        <a href="#" style="color: #64748b;"><i class="fas fa-edit"></i></a>
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        document.getElementById('groupForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            
+            db.addGroup({
+                ...data,
+                createdBy: user.id,
+                membersCount: 0
+            });
+
+            closeModal();
+            loadGroups();
+            e.target.reset();
+        });
+
+        loadGroups();
+    </script>
+</body>
+</html>

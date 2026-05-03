@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard | SakhiHub</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { display: flex; background: #f8fafc; min-height: 100vh; }
+        .sidebar { width: 280px; background: #1e293b; color: white; padding: 2rem; position: fixed; height: 100vh; transition: all 0.3s; }
+        .main-content { margin-left: 280px; width: calc(100% - 280px); padding: 3rem; }
+        .sidebar-links { list-style: none; margin-top: 3rem; }
+        .sidebar-links li { margin-bottom: 0.5rem; }
+        .sidebar-links a { color: #cbd5e1; text-decoration: none; display: flex; align-items: center; gap: 1rem; padding: 0.8rem 1rem; border-radius: 12px; transition: all 0.2s; }
+        .sidebar-links a:hover, .sidebar-links a.active { background: var(--primary); color: white; }
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .stat-card { background: white; padding: 1.5rem; border-radius: 20px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); border-top: 4px solid var(--primary); }
+        .stat-card h3 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .stat-card p { color: #64748b; font-weight: 600; font-size: 0.9rem; }
+        @media (max-width: 992px) {
+            .sidebar { transform: translateX(-100%); z-index: 1000; }
+            .sidebar.active { transform: translateX(0); }
+            .main-content { margin-left: 0; width: 100%; padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar" id="sidebar">
+        <div class="logo" style="color: white; margin-bottom: 2rem;">
+            <img src="../assets/branding/logo_icon.jpg" alt="Logo" style="height: 35px; border-radius: 50%;"> SAKHI HUB
+        </div>
+        <ul class="sidebar-links">
+            <li><a href="dashboard.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="campaigns.html"><i class="fas fa-bullhorn"></i> Active Campaigns</a></li>
+            <li><a href="groups.html"><i class="fas fa-users"></i> My Groups</a></li>
+            <li><a href="members.html"><i class="fas fa-user-plus"></i> Add Member</a></li>
+            <li><a href="membership.html"><i class="fas fa-money-check-alt"></i> Collection</a></li>
+            <li><a href="reports.html"><i class="fas fa-file-alt"></i> Daily Report</a></li>
+            <li><a href="profile.html"><i class="fas fa-user-circle"></i> My Profile</a></li>
+            <li style="margin-top: 2rem;"><a href="#" id="logoutBtn" style="color: #f87171;"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+            <div>
+                <h1 id="welcomeText">Welcome, Sakhi Employee</h1>
+                <p style="color: #64748b;" id="assignedArea">Assigned Area: Loading...</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="text-align: right;">
+                    <strong id="userName">User</strong><br>
+                    <small id="userRole" style="color: var(--primary);">Employee</small>
+                </div>
+                <div style="width: 45px; height: 45px; background: var(--grad-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;" id="userInitial">S</div>
+            </div>
+        </div>
+
+        <div class="stat-grid">
+            <div class="stat-card">
+                <h3 id="stat-groups">0</h3>
+                <p>Total Groups Created</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="stat-members">0</h3>
+                <p>Total Members Added</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="stat-today-members">0</h3>
+                <p>Today's Members</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="stat-collection">₹0</h3>
+                <p>Total Collection</p>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+            <div class="glass" style="padding: 2rem; border-radius: 24px; background: white;">
+                <h2 style="margin-bottom: 1.5rem;">Recent Groups</h2>
+                <div id="recent-groups-list">
+                    <!-- List items -->
+                </div>
+                <a href="groups.html" style="display: block; text-align: center; margin-top: 2rem; color: var(--primary); font-weight: 600;">View All Groups</a>
+            </div>
+            <div class="glass" style="padding: 2rem; border-radius: 24px; background: white;">
+                <h2 style="margin-bottom: 1.5rem;">My Daily Target</h2>
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span>Member Goal</span>
+                        <span id="target-percent">0%</span>
+                    </div>
+                    <div style="height: 10px; background: #e2e8f0; border-radius: 5px;">
+                        <div id="target-bar" style="height: 100%; background: var(--grad-primary); border-radius: 5px; width: 0%;"></div>
+                    </div>
+                    <p style="font-size: 0.8rem; margin-top: 0.5rem; color: #64748b;">Target: 10 members / day</p>
+                </div>
+                <div class="card" style="padding: 1rem; background: #f1f5f9; border: none;">
+                    <h4 style="margin-bottom: 0.5rem;"><i class="fas fa-award" style="color: #eab308;"></i> Performance</h4>
+                    <p id="perf-score">Score: 0.0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { db } from '../js/db.js';
+        import { auth } from '../js/auth.js';
+
+        // Check Access
+        const user = auth.checkAccess(['Block Employee', 'Volunteer']);
+        if (!user) window.location.href = '../employee-login.html';
+
+        // Set User Info
+        document.getElementById('userName').innerText = user.name;
+        document.getElementById('userInitial').innerText = user.name[0];
+        document.getElementById('welcomeText').innerText = `Welcome, ${user.name.split(' ')[0]}`;
+        document.getElementById('assignedArea').innerText = `Assigned Area: ${user.block || 'All'} - ${user.district || 'All'}`;
+
+        // Load Stats
+        const groups = db.getGroups().filter(g => g.createdBy === user.id);
+        const members = db.getMembers().filter(m => m.addedBy === user.id);
+        const payments = db.getPayments().filter(p => p.collectedBy === user.id);
+        
+        const todayStr = new Date().toISOString().split('T')[0];
+        const todayMembers = members.filter(m => m.dateAdded.startsWith(todayStr));
+        const totalCollection = payments.reduce((sum, p) => sum + parseInt(p.amount), 0);
+
+        document.getElementById('stat-groups').innerText = groups.length;
+        document.getElementById('stat-members').innerText = members.length;
+        document.getElementById('stat-today-members').innerText = todayMembers.length;
+        document.getElementById('stat-collection').innerText = `₹${totalCollection}`;
+
+        // Target Logic (Goal: 10 members/day)
+        const target = 10;
+        const percent = Math.min(Math.round((todayMembers.length / target) * 100), 100);
+        document.getElementById('target-percent').innerText = `${percent}%`;
+        document.getElementById('target-bar').style.width = `${percent}%`;
+
+        // Recent Groups
+        const groupList = document.getElementById('recent-groups-list');
+        groups.slice(-3).reverse().forEach(g => {
+            const div = document.createElement('div');
+            div.style.padding = '1rem';
+            div.style.borderBottom = '1px solid #f1f5f9';
+            div.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <strong>${g.name}</strong><br>
+                        <small style="color: #64748b;">${g.village}, ${g.block}</small>
+                    </div>
+                    <span style="background: #e2e8f0; padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.8rem;">${g.membersCount} Members</span>
+                </div>
+            `;
+            groupList.appendChild(div);
+        });
+
+        if (groups.length === 0) {
+            groupList.innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">No groups created yet.</p>';
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            auth.logout();
+        });
+    </script>
+</body>
+</html>

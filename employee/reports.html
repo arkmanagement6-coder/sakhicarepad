@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Activity Report | SakhiHub</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { display: flex; background: #f8fafc; }
+        .sidebar { width: 280px; background: #1e293b; color: white; padding: 2rem; position: fixed; height: 100vh; }
+        .main-content { margin-left: 280px; width: calc(100% - 280px); padding: 3rem; }
+        .sidebar-links { list-style: none; margin-top: 3rem; }
+        .sidebar-links a { color: #cbd5e1; text-decoration: none; display: flex; align-items: center; gap: 1rem; padding: 0.8rem 1rem; border-radius: 12px; }
+        .sidebar-links a:hover, .sidebar-links a.active { background: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo"><img src="../assets/branding/logo_icon.jpg" style="height: 35px; border-radius: 50%;"> SAKHI HUB</div>
+        <ul class="sidebar-links">
+            <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="groups.html"><i class="fas fa-users"></i> My Groups</a></li>
+            <li><a href="members.html"><i class="fas fa-user-plus"></i> Add Member</a></li>
+            <li><a href="membership.html"><i class="fas fa-money-check-alt"></i> Collection</a></li>
+            <li><a href="reports.html" class="active"><i class="fas fa-file-alt"></i> Daily Report</a></li>
+            <li><a href="profile.html"><i class="fas fa-user-circle"></i> My Profile</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>Daily Activity Report</h1>
+        <p style="color: #64748b; margin-bottom: 3rem;">Submit your work summary for today.</p>
+
+        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 3rem;">
+            <div class="glass" style="padding: 2.5rem; border-radius: 24px; background: white;">
+                <form id="reportForm">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem;">Report Date</label>
+                            <input type="date" name="date" id="reportDate" required>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem;">Villages Visited</label>
+                            <input type="text" name="villages" required placeholder="e.g. Village A, Village B">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem;">Groups Created</label>
+                            <input type="number" name="groups" value="0" required>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem;">Members Added</label>
+                            <input type="number" name="members" value="0" required>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem;">Membership Collection (₹)</label>
+                            <input type="number" name="collection" value="0" required>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem;">Pads Inquiry / Sold</label>
+                            <input type="text" name="pads" placeholder="e.g. 10 inquiries, 2 sold">
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem;">Meeting Summary & Remarks</label>
+                        <textarea name="remarks" rows="4" required placeholder="Details about meetings and feedback..."></textarea>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <label style="display: block; margin-bottom: 0.5rem;">Meeting Photo Link (Optional)</label>
+                        <input type="url" name="photo" placeholder="https://image-link.com">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">Submit Daily Report</button>
+                </form>
+            </div>
+
+            <div class="glass" style="padding: 2.5rem; border-radius: 24px; background: white;">
+                <h3 style="margin-bottom: 2rem;">Previous Reports</h3>
+                <div id="reportsList">
+                    <!-- List items -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { db } from '../js/db.js';
+        import { auth } from '../js/auth.js';
+
+        const user = auth.checkAccess(['Block Employee', 'Volunteer']);
+        const reportsList = document.getElementById('reportsList');
+        
+        // Set default date to today
+        document.getElementById('reportDate').valueAsDate = new Date();
+
+        function loadReports() {
+            const reports = db.getReports().filter(r => r.employeeId === user.id);
+            reportsList.innerHTML = '';
+            
+            reports.slice().reverse().forEach(r => {
+                const div = document.createElement('div');
+                div.style.padding = '1.5rem';
+                div.style.borderBottom = '1px solid #f1f5f9';
+                div.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <strong>${new Date(r.date).toLocaleDateString()}</strong>
+                        <span style="color: var(--primary); font-weight: 600;">₹${r.collection}</span>
+                    </div>
+                    <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 0.5rem;">
+                        Villages: ${r.villages}<br>
+                        Groups: ${r.groups} | Members: ${r.members}
+                    </p>
+                    <p style="font-size: 0.85rem; font-style: italic;">"${r.remarks.substring(0, 50)}..."</p>
+                `;
+                reportsList.appendChild(div);
+            });
+
+            if (reports.length === 0) {
+                reportsList.innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">No reports submitted yet.</p>';
+            }
+        }
+
+        document.getElementById('reportForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            
+            db.addReport({
+                ...data,
+                employeeId: user.id,
+                employeeName: user.name
+            });
+
+            alert('Daily report submitted successfully!');
+            loadReports();
+            e.target.reset();
+            document.getElementById('reportDate').valueAsDate = new Date();
+        });
+
+        loadReports();
+    </script>
+</body>
+</html>

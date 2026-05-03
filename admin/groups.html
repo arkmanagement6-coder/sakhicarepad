@@ -28,12 +28,60 @@
     </div>
     <div class="main-content">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
-            <h1>Group System</h1>
-            <button class="btn btn-primary"><i class="fas fa-plus"></i> Create New Group</button>
+            <h1>Global Group Management</h1>
+            <button class="btn btn-primary" onclick="alert('Admin can create groups globally. Coming soon.')"><i class="fas fa-plus"></i> Create New Group</button>
         </div>
-        <div class="glass" style="padding: 2rem; border-radius: 20px;">
-            <p style="text-align: center; color: #999; padding: 4rem;">Group tracking system initialized. 450+ groups synced from legacy system.</p>
+        <div class="glass" style="padding: 2rem; border-radius: 20px; background: white;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="text-align: left; border-bottom: 2px solid #eee;">
+                        <th style="padding: 1rem;">Group Name</th>
+                        <th style="padding: 1rem;">Location</th>
+                        <th style="padding: 1rem;">Employee / District</th>
+                        <th style="padding: 1rem;">Members</th>
+                        <th style="padding: 1rem;">Leader</th>
+                    </tr>
+                </thead>
+                <tbody id="gTableBody">
+                    <!-- Loaded via JS -->
+                </tbody>
+            </table>
         </div>
     </div>
+
+    <script type="module">
+        import { db } from '../js/db.js';
+        import { auth } from '../js/auth.js';
+
+        auth.checkAccess(['Admin']);
+        const tableBody = document.getElementById('gTableBody');
+
+        function loadGroups() {
+            const groups = db.getGroups();
+            const users = db.getUsers();
+            
+            tableBody.innerHTML = '';
+            groups.forEach(g => {
+                const emp = users.find(u => u.id === g.createdBy);
+                const tr = document.createElement('tr');
+                tr.style.borderBottom = '1px solid #eee';
+                
+                tr.innerHTML = `
+                    <td style="padding: 1rem;"><strong>${g.name}</strong></td>
+                    <td style="padding: 1rem;">${g.village}, ${g.block}</td>
+                    <td style="padding: 1rem;">${emp ? emp.name : 'N/A'}<br><small>${g.district}</small></td>
+                    <td style="padding: 1rem;"><span style="background: var(--bg-light); padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.8rem;">${g.membersCount || 0}</span></td>
+                    <td style="padding: 1rem;">${g.leader}<br><small>${g.leaderMobile}</small></td>
+                `;
+                tableBody.appendChild(tr);
+            });
+
+            if (groups.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" style="padding: 3rem; text-align: center; color: #999;">No groups found in the system.</td></tr>';
+            }
+        }
+
+        loadGroups();
+    </script>
 </body>
 </html>

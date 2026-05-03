@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>District Coordinator Dashboard | SakhiHub</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { display: flex; background: #f1f5f9; }
+        .sidebar { width: 280px; background: #0f172a; color: white; padding: 2rem; position: fixed; height: 100vh; }
+        .main-content { margin-left: 280px; width: calc(100% - 280px); padding: 3rem; }
+        .sidebar-links { list-style: none; margin-top: 3rem; }
+        .sidebar-links a { color: #94a3b8; text-decoration: none; display: flex; align-items: center; gap: 1rem; padding: 0.8rem 1rem; border-radius: 12px; }
+        .sidebar-links a:hover, .sidebar-links a.active { background: var(--primary); color: white; }
+        .stat-card { background: white; padding: 2rem; border-radius: 24px; box-shadow: var(--shadow-sm); border-left: 5px solid var(--secondary); }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo" style="color: white;"><img src="../assets/branding/logo_icon.jpg" style="height: 35px; border-radius: 50%;"> SAKHI HUB</div>
+        <ul class="sidebar-links">
+            <li><a href="dashboard.html" class="active"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li><a href="team.html"><i class="fas fa-user-friends"></i> My Team</a></li>
+            <li><a href="groups.html"><i class="fas fa-users"></i> District Groups</a></li>
+            <li><a href="reports.html"><i class="fas fa-file-signature"></i> Field Reports</a></li>
+            <li><a href="../employee/campaigns.html"><i class="fas fa-bullhorn"></i> Campaigns</a></li>
+            <li style="margin-top: 3rem;"><a href="#" id="logoutBtn" style="color: #fb7185;"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+            <div>
+                <h1 id="districtHeader">Agra District Dashboard</h1>
+                <p style="color: #64748b;">Monitoring performance of all block-level employees.</p>
+            </div>
+            <div style="text-align: right;">
+                <strong id="userName">Coordinator</strong><br>
+                <small style="color: var(--secondary);">District Coordinator</small>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
+            <div class="stat-card">
+                <h3 id="stat-team">0</h3>
+                <p>Team Members</p>
+            </div>
+            <div class="stat-card" style="border-left-color: var(--primary);">
+                <h3 id="stat-groups">0</h3>
+                <p>Total Groups</p>
+            </div>
+            <div class="stat-card" style="border-left-color: #10b981;">
+                <h3 id="stat-members">0</h3>
+                <p>Women Members</p>
+            </div>
+            <div class="stat-card" style="border-left-color: #f59e0b;">
+                <h3 id="stat-collection">₹0</h3>
+                <p>Total Collection</p>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+            <div class="glass" style="padding: 2.5rem; border-radius: 24px; background: white;">
+                <h2 style="margin-bottom: 2rem;">Top Performing Employees</h2>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="text-align: left; border-bottom: 2px solid #f1f5f9; color: #64748b;">
+                            <th style="padding: 1rem;">Employee</th>
+                            <th style="padding: 1rem;">Block</th>
+                            <th style="padding: 1rem;">Members</th>
+                            <th style="padding: 1rem;">Collection</th>
+                        </tr>
+                    </thead>
+                    <tbody id="perfTableBody">
+                        <!-- Loaded via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="glass" style="padding: 2.5rem; border-radius: 24px; background: white;">
+                <h2 style="margin-bottom: 2rem;">Recent Field Reports</h2>
+                <div id="recentReports">
+                    <!-- Loaded via JS -->
+                </div>
+                <a href="reports.html" style="display: block; text-align: center; margin-top: 2rem; color: var(--secondary); font-weight: 600;">Review All Reports</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { db } from '../js/db.js';
+        import { auth } from '../js/auth.js';
+
+        const user = auth.checkAccess(['District Coordinator', 'Admin']);
+        if (!user) window.location.href = '../employee-login.html';
+
+        document.getElementById('userName').innerText = user.name;
+        document.getElementById('districtHeader').innerText = `${user.district || 'My'} District Dashboard`;
+
+        // Load District Stats
+        const team = db.getUsers().filter(u => u.district === user.district && u.role === 'Block Employee');
+        const teamIds = team.map(u => u.id);
+        
+        const groups = db.getGroups().filter(g => teamIds.includes(g.createdBy));
+        const members = db.getMembers().filter(m => teamIds.includes(m.addedBy));
+        const payments = db.getPayments().filter(p => teamIds.includes(p.collectedBy));
+        const reports = db.getReports().filter(r => teamIds.includes(r.employeeId));
+
+        document.getElementById('stat-team').innerText = team.length;
+        document.getElementById('stat-groups').innerText = groups.length;
+        document.getElementById('stat-members').innerText = members.length;
+        document.getElementById('stat-collection').innerText = `₹${payments.reduce((s, p) => s + parseInt(p.amount), 0)}`;
+
+        // Performance Table
+        const perfTable = document.getElementById('perfTableBody');
+        team.forEach(emp => {
+            const empMembers = members.filter(m => m.addedBy === emp.id).length;
+            const empColl = payments.filter(p => p.collectedBy === emp.id).reduce((s, p) => s + parseInt(p.amount), 0);
+            
+            const tr = document.createElement('tr');
+            tr.style.borderBottom = '1px solid #f1f5f9';
+            tr.innerHTML = `
+                <td style="padding: 1rem;"><strong>${emp.name}</strong></td>
+                <td style="padding: 1rem;">${emp.block}</td>
+                <td style="padding: 1rem;">${empMembers}</td>
+                <td style="padding: 1rem; font-weight: 600;">₹${empColl}</td>
+            `;
+            perfTable.appendChild(tr);
+        });
+
+        // Recent Reports
+        const reportsList = document.getElementById('recentReports');
+        reports.slice(-4).reverse().forEach(r => {
+            const div = document.createElement('div');
+            div.style.padding = '1rem';
+            div.style.borderBottom = '1px solid #f1f5f9';
+            div.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong>${r.employeeName}</strong>
+                    <small>${new Date(r.date).toLocaleDateString()}</small>
+                </div>
+                <p style="font-size: 0.8rem; color: #64748b;">${r.villages} - ${r.members} members</p>
+            `;
+            reportsList.appendChild(div);
+        });
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            auth.logout();
+        });
+    </script>
+</body>
+</html>

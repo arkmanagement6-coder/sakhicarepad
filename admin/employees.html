@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Team | SakhiHub Admin</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { display: flex; background: #f0f2f5; }
+        .sidebar { width: 280px; height: 100vh; background: #1a1a1a; color: white; padding: 2rem; position: fixed; }
+        .main-content { margin-left: 280px; width: calc(100% - 280px); padding: 3rem; }
+        .sidebar-links { list-style: none; margin-top: 3rem; }
+        .sidebar-links a { color: #ccc; text-decoration: none; display: flex; align-items: center; gap: 1rem; padding: 0.8rem 1rem; border-radius: 10px; }
+        .sidebar-links a.active { background: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo"><img src="../assets/branding/logo_icon.jpg" style="height: 35px; border-radius: 50%; filter: brightness(1.2%;"> SAKHI HUB</div>
+        <ul class="sidebar-links">
+            <li><a href="index.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="employees.html" class="active"><i class="fas fa-user-friends"></i> Team Management</a></li>
+            <li><a href="groups.html"><i class="fas fa-users"></i> Groups</a></li>
+            <li><a href="members.html"><i class="fas fa-female"></i> Members</a></li>
+            <li><a href="programs.html"><i class="fas fa-tasks"></i> Programs</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>Team Management</h1>
+        <p style="color: var(--text-muted); margin-bottom: 3rem;">Approve, manage and monitor your field force.</p>
+
+        <div class="glass" style="padding: 2rem; border-radius: 20px; background: white;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="text-align: left; border-bottom: 2px solid #eee;">
+                        <th style="padding: 1rem;">Employee</th>
+                        <th style="padding: 1rem;">Role</th>
+                        <th style="padding: 1rem;">District / Block</th>
+                        <th style="padding: 1rem;">Status</th>
+                        <th style="padding: 1rem;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="empTableBody">
+                    <!-- Loaded via JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="module">
+        import { db } from '../js/db.js';
+        import { auth } from '../js/auth.js';
+
+        auth.checkAccess(['Admin']);
+        const tableBody = document.getElementById('empTableBody');
+
+        function loadEmps() {
+            const users = db.getUsers().filter(u => u.role !== 'Admin');
+            tableBody.innerHTML = '';
+            
+            users.forEach(u => {
+                const tr = document.createElement('tr');
+                tr.style.borderBottom = '1px solid #eee';
+                const statusColor = u.status === 'Active' ? '#10b981' : (u.status === 'Pending' ? '#f59e0b' : '#ef4444');
+                
+                tr.innerHTML = `
+                    <td style="padding: 1rem;">
+                        <strong>${u.name}</strong><br>
+                        <small>${u.id} | ${u.mobile}</small>
+                    </td>
+                    <td style="padding: 1rem;">${u.role}</td>
+                    <td style="padding: 1rem;">${u.district} / ${u.block}</td>
+                    <td style="padding: 1rem;"><span style="color: ${statusColor}; font-weight: 600;">${u.status}</span></td>
+                    <td style="padding: 1rem;">
+                        ${u.status === 'Pending' ? `<button class="btn btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;" onclick="approveEmp('${u.id}')">Approve</button>` : ''}
+                        <button class="btn btn-outline" style="padding: 0.3rem 0.8rem; font-size: 0.8rem; color: #ef4444;" onclick="deactivateEmp('${u.id}')">Deactivate</button>
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        window.approveEmp = (id) => {
+            db.updateUser(id, { status: 'Active' });
+            alert('Employee approved successfully!');
+            loadEmps();
+        };
+
+        window.deactivateEmp = (id) => {
+            if (confirm('Are you sure you want to deactivate this employee?')) {
+                db.updateUser(id, { status: 'Inactive' });
+                loadEmps();
+            }
+        };
+
+        loadEmps();
+    </script>
+</body>
+</html>

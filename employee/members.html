@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Members | SakhiHub</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { display: flex; background: #f8fafc; }
+        .sidebar { width: 280px; background: #1e293b; color: white; padding: 2rem; position: fixed; height: 100vh; }
+        .main-content { margin-left: 280px; width: calc(100% - 280px); padding: 3rem; }
+        .sidebar-links { list-style: none; margin-top: 3rem; }
+        .sidebar-links a { color: #cbd5e1; text-decoration: none; display: flex; align-items: center; gap: 1rem; padding: 0.8rem 1rem; border-radius: 12px; }
+        .sidebar-links a:hover, .sidebar-links a.active { background: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo"><img src="../assets/branding/logo_icon.jpg" style="height: 35px; border-radius: 50%;"> SAKHI HUB</div>
+        <ul class="sidebar-links">
+            <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="groups.html"><i class="fas fa-users"></i> My Groups</a></li>
+            <li><a href="members.html" class="active"><i class="fas fa-user-plus"></i> Add Member</a></li>
+            <li><a href="membership.html"><i class="fas fa-money-check-alt"></i> Collection</a></li>
+            <li><a href="reports.html"><i class="fas fa-file-alt"></i> Daily Report</a></li>
+            <li><a href="profile.html"><i class="fas fa-user-circle"></i> My Profile</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>Add Women Member</h1>
+        <p style="color: #64748b; margin-bottom: 3rem;">Register women members into existing groups.</p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+            <div class="glass" style="padding: 2.5rem; border-radius: 24px; background: white;">
+                <h3 style="margin-bottom: 2rem;">Member Registration Form</h3>
+                <form id="memberForm">
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem;">Select Group *</label>
+                        <select name="groupId" id="groupSelect" required>
+                            <option value="">Choose a group</option>
+                        </select>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem;">Full Name *</label>
+                            <input type="text" name="name" required placeholder="Member name">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem;">Mobile Number *</label>
+                            <input type="tel" name="mobile" required placeholder="10-digit">
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem;">Age</label>
+                            <input type="number" name="age" placeholder="Age">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem;">Occupation</label>
+                            <input type="text" name="occupation" placeholder="e.g. Housewife">
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem;">Interested In *</label>
+                        <select name="interest" required>
+                            <option value="">Select Interest</option>
+                            <option value="Health Awareness">Health Awareness</option>
+                            <option value="Sakhi Care Pads">Sakhi Care Pads</option>
+                            <option value="Employment">Employment</option>
+                            <option value="Training">Training</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">Register Member</button>
+                </form>
+            </div>
+
+            <div class="glass" style="padding: 2.5rem; border-radius: 24px; background: white;">
+                <h3 style="margin-bottom: 2rem;">Recent Members Added</h3>
+                <div id="recentMembersList">
+                    <!-- List loaded via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { db } from '../js/db.js';
+        import { auth } from '../js/auth.js';
+
+        const user = auth.checkAccess(['Block Employee', 'Volunteer']);
+        const groupSelect = document.getElementById('groupSelect');
+        const recentList = document.getElementById('recentMembersList');
+
+        // Check for groupId in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlGroupId = urlParams.get('groupId');
+
+        function loadGroups() {
+            const groups = db.getGroups().filter(g => g.createdBy === user.id);
+            groups.forEach(g => {
+                const opt = document.createElement('option');
+                opt.value = g.id;
+                opt.innerText = g.name;
+                if (urlGroupId === g.id) opt.selected = true;
+                groupSelect.appendChild(opt);
+            });
+        }
+
+        function loadMembers() {
+            const members = db.getMembers().filter(m => m.addedBy === user.id);
+            recentList.innerHTML = '';
+            
+            members.slice(-5).reverse().forEach(m => {
+                const group = db.getGroups().find(g => g.id === m.groupId);
+                const div = document.createElement('div');
+                div.style.padding = '1rem';
+                div.style.borderBottom = '1px solid #f1f5f9';
+                div.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>${m.name}</strong><br>
+                            <small style="color: #64748b;">Group: ${group ? group.name : 'N/A'}</small>
+                        </div>
+                        <span style="color: var(--primary); font-size: 0.8rem; font-weight: 600;">${m.membershipStatus}</span>
+                    </div>
+                `;
+                recentList.appendChild(div);
+            });
+
+            if (members.length === 0) {
+                recentList.innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">No members added yet.</p>';
+            }
+        }
+
+        document.getElementById('memberForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Check if member already exists in this group
+            const existing = db.getMembers().find(m => m.mobile === data.mobile && m.groupId === data.groupId);
+            if (existing) {
+                alert('This member is already registered in this group.');
+                return;
+            }
+
+            db.addMember({
+                ...data,
+                addedBy: user.id
+            });
+
+            // Increment group member count
+            const groups = db.getGroups();
+            const gIdx = groups.findIndex(g => g.id === data.groupId);
+            if (gIdx !== -1) {
+                groups[gIdx].membersCount = (groups[gIdx].membersCount || 0) + 1;
+                localStorage.setItem('sakhi_groups', JSON.stringify(groups));
+            }
+
+            alert('Member registered successfully!');
+            loadMembers();
+            e.target.reset();
+        });
+
+        loadGroups();
+        loadMembers();
+    </script>
+</body>
+</html>

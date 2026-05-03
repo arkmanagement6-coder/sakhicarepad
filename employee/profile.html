@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | SakhiHub</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { display: flex; background: #f8fafc; }
+        .sidebar { width: 280px; background: #1e293b; color: white; padding: 2rem; position: fixed; height: 100vh; }
+        .main-content { margin-left: 280px; width: calc(100% - 280px); padding: 3rem; }
+        .sidebar-links { list-style: none; margin-top: 3rem; }
+        .sidebar-links a { color: #cbd5e1; text-decoration: none; display: flex; align-items: center; gap: 1rem; padding: 0.8rem 1rem; border-radius: 12px; }
+        .sidebar-links a:hover, .sidebar-links a.active { background: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo"><img src="../assets/branding/logo_icon.jpg" style="height: 35px; border-radius: 50%;"> SAKHI HUB</div>
+        <ul class="sidebar-links">
+            <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="groups.html"><i class="fas fa-users"></i> My Groups</a></li>
+            <li><a href="members.html"><i class="fas fa-user-plus"></i> Add Member</a></li>
+            <li><a href="membership.html"><i class="fas fa-money-check-alt"></i> Collection</a></li>
+            <li><a href="reports.html"><i class="fas fa-file-alt"></i> Daily Report</a></li>
+            <li><a href="profile.html" class="active"><i class="fas fa-user-circle"></i> My Profile</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>My Profile</h1>
+        <p style="color: #64748b; margin-bottom: 3rem;">View and manage your account details.</p>
+
+        <div style="max-width: 700px;" class="glass p-4 bg-white rounded-3">
+            <div style="display: flex; gap: 2rem; align-items: center; margin-bottom: 3rem;">
+                <div style="width: 100px; height: 100px; background: var(--grad-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: bold;" id="profileInitial">S</div>
+                <div>
+                    <h2 id="p-name">Loading...</h2>
+                    <p id="p-role" style="color: var(--primary); font-weight: 600;">Employee</p>
+                    <p id="p-id" style="color: #64748b;">ID: ...</p>
+                </div>
+            </div>
+
+            <form id="profileForm">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">District</label>
+                        <input type="text" id="p-district" disabled style="background: #f1f5f9;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Block</label>
+                        <input type="text" id="p-block" disabled style="background: #f1f5f9;">
+                    </div>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Mobile Number</label>
+                    <input type="tel" name="mobile" id="p-mobile" required>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Address</label>
+                    <textarea name="address" id="p-address" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { db } from '../js/db.js';
+        import { auth } from '../js/auth.js';
+
+        const user = auth.getCurrentUser();
+        if (!user) window.location.href = '../employee-login.html';
+
+        document.getElementById('p-name').innerText = user.name;
+        document.getElementById('p-role').innerText = user.role;
+        document.getElementById('p-id').innerText = `ID: ${user.id}`;
+        document.getElementById('profileInitial').innerText = user.name[0];
+        
+        document.getElementById('p-district').value = user.district || '';
+        document.getElementById('p-block').value = user.block || '';
+        document.getElementById('p-mobile').value = user.mobile || '';
+        document.getElementById('p-address').value = user.address || '';
+
+        document.getElementById('profileForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const updates = {
+                mobile: e.target.mobile.value,
+                address: e.target.address.value
+            };
+            db.updateUser(user.id, updates);
+            alert('Profile updated successfully!');
+        });
+    </script>
+</body>
+</html>

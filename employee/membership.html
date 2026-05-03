@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership Collection | SakhiHub</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { display: flex; background: #f8fafc; }
+        .sidebar { width: 280px; background: #1e293b; color: white; padding: 2rem; position: fixed; height: 100vh; }
+        .main-content { margin-left: 280px; width: calc(100% - 280px); padding: 3rem; }
+        .sidebar-links { list-style: none; margin-top: 3rem; }
+        .sidebar-links a { color: #cbd5e1; text-decoration: none; display: flex; align-items: center; gap: 1rem; padding: 0.8rem 1rem; border-radius: 12px; }
+        .sidebar-links a:hover, .sidebar-links a.active { background: var(--primary); color: white; }
+        .receipt-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; }
+        .receipt-card { background: white; padding: 3rem; border-radius: 20px; width: 450px; position: relative; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo"><img src="../assets/branding/logo_icon.jpg" style="height: 35px; border-radius: 50%;"> SAKHI HUB</div>
+        <ul class="sidebar-links">
+            <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="groups.html"><i class="fas fa-users"></i> My Groups</a></li>
+            <li><a href="members.html"><i class="fas fa-user-plus"></i> Add Member</a></li>
+            <li><a href="membership.html" class="active"><i class="fas fa-money-check-alt"></i> Collection</a></li>
+            <li><a href="reports.html"><i class="fas fa-file-alt"></i> Daily Report</a></li>
+            <li><a href="profile.html"><i class="fas fa-user-circle"></i> My Profile</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>Membership Collection</h1>
+        <p style="color: #64748b; margin-bottom: 3rem;">Collect ₹100 membership fee from women members.</p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 3rem;">
+            <div class="glass" style="padding: 2.5rem; border-radius: 24px; background: white;">
+                <h3 style="margin-bottom: 2rem;">New Payment Entry</h3>
+                <form id="paymentForm">
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem;">Member Name / Mobile *</label>
+                        <select name="memberMobile" id="memberSelect" required>
+                            <option value="">Select a member</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem;">Amount (Fixed)</label>
+                        <input type="text" value="₹100" disabled style="background: #f1f5f9; font-weight: bold;">
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem;">Payment Mode *</label>
+                        <select name="mode" required>
+                            <option value="Cash">Cash</option>
+                            <option value="UPI">UPI / Online</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <label style="display: block; margin-bottom: 0.5rem;">Remarks</label>
+                        <input type="text" name="remarks" placeholder="Optional notes">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">Confirm Payment</button>
+                </form>
+            </div>
+
+            <div class="glass" style="padding: 2rem; border-radius: 24px; background: white;">
+                <h3 style="margin-bottom: 2rem;">Recent Collections</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="text-align: left; border-bottom: 1px solid #eee;">
+                            <th style="padding: 1rem;">Member</th>
+                            <th style="padding: 1rem;">Amount</th>
+                            <th style="padding: 1rem;">Date</th>
+                            <th style="padding: 1rem;">Receipt</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentTableBody">
+                        <!-- Loaded via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div id="receiptModal" class="receipt-modal">
+        <div class="receipt-card" id="printableReceipt">
+            <div style="text-align: center; border-bottom: 2px dashed #eee; padding-bottom: 1.5rem; margin-bottom: 1.5rem;">
+                <img src="../assets/branding/logo_icon.jpg" style="height: 50px; border-radius: 50%;">
+                <h2 style="margin-top: 0.5rem;">SAKHI HUB</h2>
+                <p style="font-size: 0.8rem; color: #666;">Membership Acknowledgement Receipt</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.9rem;">
+                <div>
+                    <label style="color: #888;">Receipt No:</label><br>
+                    <strong id="r-no">...</strong>
+                </div>
+                <div style="text-align: right;">
+                    <label style="color: #888;">Date:</label><br>
+                    <strong id="r-date">...</strong>
+                </div>
+                <div>
+                    <label style="color: #888;">Member Name:</label><br>
+                    <strong id="r-name">...</strong>
+                </div>
+                <div style="text-align: right;">
+                    <label style="color: #888;">Membership ID:</label><br>
+                    <strong id="r-id">...</strong>
+                </div>
+            </div>
+
+            <div style="background: #f8fafc; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0; text-align: center;">
+                <label style="color: #888;">Amount Paid</label>
+                <h1 style="color: var(--primary); margin: 0;">₹100.00</h1>
+            </div>
+
+            <div style="font-size: 0.85rem; line-height: 1.6;">
+                <p><strong>Collected By:</strong> <span id="r-emp">...</span></p>
+                <p><strong>Payment Mode:</strong> <span id="r-mode">...</span></p>
+            </div>
+
+            <div style="margin-top: 2rem; border-top: 2px dashed #eee; padding-top: 1rem; text-align: center; font-size: 0.8rem; color: #888;">
+                This is a computer-generated digital receipt.<br>
+                For any queries, contact contact@sakhihub.in
+            </div>
+
+            <button class="btn btn-outline" style="width: 100%; margin-top: 2rem;" onclick="closeReceipt()">Close</button>
+            <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;" onclick="window.print()">Print Receipt</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { db } from '../js/db.js';
+        import { auth } from '../js/auth.js';
+
+        const user = auth.checkAccess(['Block Employee', 'Volunteer']);
+        const memberSelect = document.getElementById('memberSelect');
+        const paymentTable = document.getElementById('paymentTableBody');
+
+        function loadMembers() {
+            const members = db.getMembers().filter(m => m.addedBy === user.id && m.membershipStatus === 'Free');
+            memberSelect.innerHTML = '<option value="">Select a member</option>';
+            members.forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m.mobile;
+                opt.innerText = `${m.name} (${m.mobile})`;
+                memberSelect.appendChild(opt);
+            });
+        }
+
+        function loadPayments() {
+            const payments = db.getPayments().filter(p => p.collectedBy === user.id);
+            paymentTable.innerHTML = '';
+            
+            payments.slice().reverse().forEach(p => {
+                const tr = document.createElement('tr');
+                tr.style.borderBottom = '1px solid #f1f5f9';
+                tr.innerHTML = `
+                    <td style="padding: 1rem;">
+                        <strong>${p.memberName}</strong><br>
+                        <small style="color: #64748b;">${p.memberMobile}</small>
+                    </td>
+                    <td style="padding: 1rem; font-weight: 600;">₹${p.amount}</td>
+                    <td style="padding: 1rem; font-size: 0.9rem;">${new Date(p.timestamp).toLocaleDateString()}</td>
+                    <td style="padding: 1rem;"><button class="btn btn-outline" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;" onclick="viewReceipt('${p.id}')">View</button></td>
+                `;
+                paymentTable.appendChild(tr);
+            });
+
+            if (payments.length === 0) {
+                paymentTable.innerHTML = '<tr><td colspan="4" style="padding: 3rem; text-align: center; color: #999;">No payments collected yet.</td></tr>';
+            }
+        }
+
+        document.getElementById('paymentForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const mobile = e.target.memberMobile.value;
+            const member = db.getMembers().find(m => m.mobile === mobile);
+            
+            if (!member) return;
+
+            const pay = db.addPayment({
+                memberId: member.id,
+                memberName: member.name,
+                memberMobile: member.mobile,
+                amount: 100,
+                mode: e.target.mode.value,
+                remarks: e.target.remarks.value,
+                collectedBy: user.id,
+                collectedByName: user.name
+            });
+
+            alert('Payment recorded successfully!');
+            e.target.reset();
+            loadMembers();
+            loadPayments();
+            viewReceipt(pay.id);
+        });
+
+        window.viewReceipt = (payId) => {
+            const pay = db.getPayments().find(p => p.id === payId);
+            if (!pay) return;
+
+            document.getElementById('r-no').innerText = pay.receiptNo;
+            document.getElementById('r-date').innerText = new Date(pay.timestamp).toLocaleDateString();
+            document.getElementById('r-name').innerText = pay.memberName;
+            document.getElementById('r-id').innerText = pay.memberId;
+            document.getElementById('r-emp').innerText = pay.collectedByName;
+            document.getElementById('r-mode').innerText = pay.mode;
+
+            document.getElementById('receiptModal').style.display = 'flex';
+        };
+
+        window.closeReceipt = () => {
+            document.getElementById('receiptModal').style.display = 'none';
+        };
+
+        loadMembers();
+        loadPayments();
+    </script>
+</body>
+</html>
