@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,9 +9,9 @@
 </head>
 <body>
 
-    <nav id="navbar" class="scrolled">
+        <nav id="navbar" class="scrolled">
         <div class="logo">
-            <img src="assets/branding/logo_icon.jpg" alt="Sakhi Hub Logo" style="height: 40px; border-radius: 50%;"> SAKHI HUB
+            <img src="assets/branding/logo_icon.jpg" alt="Sakhi Hub Logo" style="height: 45px; border-radius: 50%;"> <span>SAKHI HUB</span>
         </div>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
@@ -32,7 +32,7 @@
             </li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
-        <a href="hiring.html" class="btn btn-primary">Join Mission</a>
+        <a href="hiring.html" class="btn btn-primary nav-btn">Join Mission</a>
     </nav>
 
     <header class="section-padding" style="background: var(--bg-light); margin-top: 80px;">
@@ -56,14 +56,47 @@
                     Interested in distributing Sakhi Care products in your area or placing a bulk order for your NGO/Company? Get in touch with us.
                 </p>
                 <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
-                    <a href="https://wa.me/918821885577" class="btn btn-primary" style="background: #25D366; border: none;"><i class="fab fa-whatsapp"></i> WhatsApp Inquiry</a>
+                    <a href="https://wa.me/918076611842" class="btn btn-primary" style="background: #25D366; border: none;"><i class="fab fa-whatsapp"></i> WhatsApp Inquiry</a>
                     <a href="contact.html" class="btn btn-outline">Contact Us</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer>
+        
+
+    <script type="module">
+        import { db } from './js/db.js';
+
+        const productGrid = document.getElementById('product-grid');
+        const products = db.getProducts();
+
+        products.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <img src="${p.image}" alt="${p.name}" style="width: 100%; height: 300px; object-fit: cover;">
+                <div style="padding: 2.5rem;">
+                    <h3 style="margin-bottom: 0.5rem; font-size: 1.8rem;">${p.name}</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1rem; font-weight: 600;">${p.pads}</p>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <span style="font-size: 1.2rem; text-decoration: line-through; color: #999;">MRP â‚¹${p.mrp}</span>
+                        <span style="font-size: 1.8rem; color: var(--primary); font-weight: 700;">â‚¹${p.price}</span>
+                    </div>
+                    <ul style="list-style: none; margin-bottom: 2rem; font-size: 0.9rem;">
+                        ${p.features.map(f => `<li style="margin-bottom: 0.3rem;"><i class="fas fa-check" style="color: var(--secondary);"></i> ${f}</li>`).join('')}
+                    </ul>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <a href="https://wa.me/918076611842?text=I'm interested in ${p.name}" class="btn btn-primary" style="padding: 0.8rem;"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                        <a href="tel:8076611842" class="btn btn-outline" style="padding: 0.8rem;"><i class="fas fa-phone"></i> Call Now</a>
+                    </div>
+                </div>
+            `;
+            productGrid.appendChild(card);
+        });
+    </script>
+
+        <footer>
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
@@ -103,36 +136,8 @@
             </div>
         </div>
     </footer>
-
-    <script type="module">
-        import { db } from './js/db.js';
-
-        const productGrid = document.getElementById('product-grid');
-        const products = db.getProducts();
-
-        products.forEach(p => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <img src="${p.image}" alt="${p.name}" style="width: 100%; height: 300px; object-fit: cover;">
-                <div style="padding: 2.5rem;">
-                    <h3 style="margin-bottom: 0.5rem; font-size: 1.8rem;">${p.name}</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 1rem; font-weight: 600;">${p.pads}</p>
-                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                        <span style="font-size: 1.2rem; text-decoration: line-through; color: #999;">MRP ₹${p.mrp}</span>
-                        <span style="font-size: 1.8rem; color: var(--primary); font-weight: 700;">₹${p.price}</span>
-                    </div>
-                    <ul style="list-style: none; margin-bottom: 2rem; font-size: 0.9rem;">
-                        ${p.features.map(f => `<li style="margin-bottom: 0.3rem;"><i class="fas fa-check" style="color: var(--secondary);"></i> ${f}</li>`).join('')}
-                    </ul>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <a href="https://wa.me/918076611842?text=I'm interested in ${p.name}" class="btn btn-primary" style="padding: 0.8rem;"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-                        <a href="tel:8076611842" class="btn btn-outline" style="padding: 0.8rem;"><i class="fas fa-phone"></i> Call Now</a>
-                    </div>
-                </div>
-            `;
-            productGrid.appendChild(card);
-        });
-    </script>
 </body>
 </html>
+
+
+

@@ -1,18 +1,4 @@
-﻿<!DOCTYPE html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Vision | SakhiHub</title>
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-
-        <nav id="navbar" class="scrolled">
-        <div class="logo">
-            <img src="assets/branding/logo_icon.jpg" alt="Sakhi Hub Logo" style="height: 45px; border-radius: 50%;"> <span>SAKHI HUB</span>
-        </div>
+$nav = @"
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li class="dropdown">
@@ -32,34 +18,10 @@
             </li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
-        <a href="hiring.html" class="btn btn-primary nav-btn">Join Mission</a>
-    </nav>
+"@
 
-    <header class="section-padding" style="background: var(--bg-light); margin-top: 80px;">
-        <div class="container" style="text-align: center;">
-            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">à¤¹à¤®à¤¾à¤°à¤¾ à¤µà¤¿à¤œà¤¼à¤¨ (Our Vision)</h1>
-        </div>
-    </header>
-
-    <section class="section-padding">
-        <div class="container">
-            <div class="glass" style="padding: 4rem; border-radius: 40px; max-width: 900px; margin: 0 auto; text-align: center;">
-                <p style="font-size: 1.5rem; line-height: 1.8; margin-bottom: 2rem;">
-                    à¤¹à¤®à¤¾à¤°à¤¾ à¤µà¤¿à¤œà¤¼à¤¨ à¤à¤• à¤à¤¸à¤¾ à¤­à¤¾à¤°à¤¤ à¤¬à¤¨à¤¾à¤¨à¤¾ à¤¹à¥ˆ à¤œà¤¹à¤¾à¤‚ à¤¹à¤° à¤®à¤¹à¤¿à¤²à¤¾ à¤¸à¥à¤µà¤¸à¥à¤¥, à¤œà¤¾à¤—à¤°à¥‚à¤•, à¤¸à¥à¤°à¤•à¥à¤·à¤¿à¤¤, à¤¸à¤®à¥à¤®à¤¾à¤¨à¤¿à¤¤ à¤”à¤° à¤†à¤°à¥à¤¥à¤¿à¤• à¤°à¥‚à¤ª à¤¸à¥‡ à¤†à¤¤à¥à¤®à¤¨à¤¿à¤°à¥à¤­à¤° à¤¹à¥‹à¥¤
-                </p>
-                <p style="font-size: 1.5rem; line-height: 1.8;">
-                    SakhiHub à¤•à¤¾ à¤²à¤•à¥à¤·à¥à¤¯ à¤¦à¥‡à¤¶ à¤•à¥‡ à¤¹à¤° à¤œà¤¿à¤²à¥‡, à¤¹à¤° block à¤”à¤° à¤¹à¤° à¤—à¤¾à¤‚à¤µ à¤¤à¤• à¤à¤• à¤®à¤œà¤¬à¥‚à¤¤ à¤®à¤¹à¤¿à¤²à¤¾ à¤¨à¥‡à¤Ÿà¤µà¤°à¥à¤• à¤¬à¤¨à¤¾à¤¨à¤¾ à¤¹à¥ˆà¥¤
-                </p>
-                <div style="margin-top: 3rem;">
-                    <img src="assets/images/hero2.png" style="width: 100%; border-radius: 20px;">
-                </div>
-            </div>
-        </div>
-    </section>
-
-        
-
-        <footer>
+$footer = @"
+    <footer>
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
@@ -99,8 +61,29 @@
             </div>
         </div>
     </footer>
-</body>
-</html>
+"@
 
+Get-ChildItem *.html | ForEach-Object {
+    $content = Get-Content $_.FullName -Raw
+    
+    # 1. Clean up duplicate or old nav-links
+    $newContent = $content -replace '(?s)<ul class="nav-links">.*?</ul>', $nav
+    
+    # 2. Remove ALL existing footers to prevent duplicates
+    $newContent = $newContent -replace '(?s)<footer.*?>.*?</footer>', ''
+    
+    # 3. Insert fresh footer before </body>
+    $newContent = $newContent -replace '</body>', "`n$footer`n</body>"
 
+    # 4. Global replacements for contact info
+    $newContent = $newContent -replace '8821885577', '8076611842'
+    $newContent = $newContent -replace 'contact@sakhicare.in', 'contact@sakhihub.in'
+    
+    # 5. Fix Logo branding consistency
+    # Match various logo icon patterns and replace with standard span version
+    if ($newContent -match 'logo_icon.jpg" alt="Sakhi Hub Logo".*?> SAKHI HUB') {
+        $newContent = $newContent -replace 'logo_icon.jpg" alt="Sakhi Hub Logo".*?> SAKHI HUB', 'logo_icon.jpg" alt="Sakhi Hub Logo" style="height: 45px; border-radius: 50%;"> <span>SAKHI HUB</span>'
+    }
 
+    $newContent | Set-Content $_.FullName -Encoding UTF8
+}

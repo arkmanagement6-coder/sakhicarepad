@@ -1,15 +1,5 @@
-﻿<!DOCTYPE html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Vision | SakhiHub</title>
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-
-        <nav id="navbar" class="scrolled">
+$navTemplate = @"
+    <nav id="navbar" class="scrolled">
         <div class="logo">
             <img src="assets/branding/logo_icon.jpg" alt="Sakhi Hub Logo" style="height: 45px; border-radius: 50%;"> <span>SAKHI HUB</span>
         </div>
@@ -34,32 +24,10 @@
         </ul>
         <a href="hiring.html" class="btn btn-primary nav-btn">Join Mission</a>
     </nav>
+"@
 
-    <header class="section-padding" style="background: var(--bg-light); margin-top: 80px;">
-        <div class="container" style="text-align: center;">
-            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">à¤¹à¤®à¤¾à¤°à¤¾ à¤µà¤¿à¤œà¤¼à¤¨ (Our Vision)</h1>
-        </div>
-    </header>
-
-    <section class="section-padding">
-        <div class="container">
-            <div class="glass" style="padding: 4rem; border-radius: 40px; max-width: 900px; margin: 0 auto; text-align: center;">
-                <p style="font-size: 1.5rem; line-height: 1.8; margin-bottom: 2rem;">
-                    à¤¹à¤®à¤¾à¤°à¤¾ à¤µà¤¿à¤œà¤¼à¤¨ à¤à¤• à¤à¤¸à¤¾ à¤­à¤¾à¤°à¤¤ à¤¬à¤¨à¤¾à¤¨à¤¾ à¤¹à¥ˆ à¤œà¤¹à¤¾à¤‚ à¤¹à¤° à¤®à¤¹à¤¿à¤²à¤¾ à¤¸à¥à¤µà¤¸à¥à¤¥, à¤œà¤¾à¤—à¤°à¥‚à¤•, à¤¸à¥à¤°à¤•à¥à¤·à¤¿à¤¤, à¤¸à¤®à¥à¤®à¤¾à¤¨à¤¿à¤¤ à¤”à¤° à¤†à¤°à¥à¤¥à¤¿à¤• à¤°à¥‚à¤ª à¤¸à¥‡ à¤†à¤¤à¥à¤®à¤¨à¤¿à¤°à¥à¤­à¤° à¤¹à¥‹à¥¤
-                </p>
-                <p style="font-size: 1.5rem; line-height: 1.8;">
-                    SakhiHub à¤•à¤¾ à¤²à¤•à¥à¤·à¥à¤¯ à¤¦à¥‡à¤¶ à¤•à¥‡ à¤¹à¤° à¤œà¤¿à¤²à¥‡, à¤¹à¤° block à¤”à¤° à¤¹à¤° à¤—à¤¾à¤‚à¤µ à¤¤à¤• à¤à¤• à¤®à¤œà¤¬à¥‚à¤¤ à¤®à¤¹à¤¿à¤²à¤¾ à¤¨à¥‡à¤Ÿà¤µà¤°à¥à¤• à¤¬à¤¨à¤¾à¤¨à¤¾ à¤¹à¥ˆà¥¤
-                </p>
-                <div style="margin-top: 3rem;">
-                    <img src="assets/images/hero2.png" style="width: 100%; border-radius: 20px;">
-                </div>
-            </div>
-        </div>
-    </section>
-
-        
-
-        <footer>
+$footerTemplate = @"
+    <footer>
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
@@ -99,8 +67,21 @@
             </div>
         </div>
     </footer>
-</body>
-</html>
+"@
 
+Get-ChildItem *.html | ForEach-Object {
+    $content = Get-Content $_.FullName -Raw
+    
+    # Replace entire Nav block
+    $newContent = $content -replace '(?s)<nav.*?</nav>', $navTemplate
+    
+    # Replace entire Footer block
+    $newContent = $newContent -replace '(?s)<footer.*?</footer>', $footerTemplate
+    
+    # Adjust index.html nav class
+    if ($_.Name -eq "index.html") {
+        $newContent = $newContent -replace 'nav id="navbar" class="scrolled"', 'nav id="navbar"'
+    }
 
-
+    $newContent | Set-Content $_.FullName -Encoding UTF8
+}
