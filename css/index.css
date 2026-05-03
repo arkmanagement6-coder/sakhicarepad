@@ -180,9 +180,9 @@ nav.scrolled .logo img {
 }
 
 .logo span {
-    background: linear-gradient(to right, #fff, var(--primary-light));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--primary);
+    text-shadow: 0 0 10px rgba(240, 0, 120, 0.2);
+    font-weight: 900;
 }
 
 .logo img {
@@ -200,34 +200,48 @@ nav.scrolled .logo img {
     box-shadow: 0 0 15px rgba(255,255,255,0.3);
 }
 
-.nav-links a {
-    text-decoration: none;
-    color: var(--white);
-    font-weight: 600;
-    transition: var(--trans);
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    font-size: 0.95rem;
-}
-
-.nav-links a:hover {
-    color: var(--primary-light);
-}
-
 .nav-links {
     display: flex;
-    gap: 2.5rem;
+    gap: 1.2rem;
     list-style: none;
 }
 
-.nav-links a {
+.nav-links li a {
     text-decoration: none;
-    color: var(--text-dark);
-    font-weight: 500;
-    transition: var(--trans);
+    color: var(--white);
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.7rem 1.4rem;
+    border-radius: 50px;
+    border: 2px solid rgba(255,255,255,0.3);
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    display: block;
 }
 
-.nav-links a:hover {
+.nav-links li a:hover {
+    background: var(--white);
     color: var(--primary);
+    border-color: var(--white);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255,255,255,0.2);
+}
+
+/* Scrolled Navbar Buttons */
+nav.scrolled .nav-links li a {
+    color: var(--primary);
+    border-color: rgba(240, 0, 120, 0.2);
+    background: rgba(240, 0, 120, 0.05);
+}
+
+nav.scrolled .nav-links li a:hover {
+    background: var(--primary);
+    color: var(--white);
+    border-color: var(--primary);
+    box-shadow: 0 5px 15px rgba(240, 0, 120, 0.3);
 }
 
 /* Cards */
