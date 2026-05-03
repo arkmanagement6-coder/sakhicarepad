@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Applications | Sakhi Care Admin</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { display: flex; background: #f0f2f5; }
+        .sidebar { width: 280px; height: 100vh; background: #1a1a1a; color: white; padding: 2rem; position: fixed; }
+        .main-content { margin-left: 280px; width: calc(100% - 280px); padding: 3rem; }
+        .sidebar-links { list-style: none; margin-top: 3rem; }
+        .sidebar-links a { color: #ccc; text-decoration: none; display: flex; align-items: center; gap: 1rem; padding: 0.8rem 1rem; border-radius: 10px; }
+        .sidebar-links a.active { background: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo"><i class="fas fa-heart"></i> SAKHI ADMIN</div>
+        <ul class="sidebar-links">
+            <li><a href="index.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="programs.html"><i class="fas fa-tasks"></i> Programs</a></li>
+            <li><a href="applications.html" class="active"><i class="fas fa-user-tie"></i> Applications</a></li>
+            <li><a href="groups.html"><i class="fas fa-users"></i> Groups</a></li>
+            <li><a href="products.html"><i class="fas fa-box"></i> Products</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>Hiring Applications</h1>
+        <p style="color: var(--text-muted); margin-bottom: 3rem;">Manage applications for Block Level, District Level, and Volunteer roles.</p>
+
+        <div class="glass" style="padding: 2rem; border-radius: 20px;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="text-align: left; border-bottom: 2px solid #eee;">
+                        <th style="padding: 1rem;">Applicant</th>
+                        <th style="padding: 1rem;">Role</th>
+                        <th style="padding: 1rem;">Area/Block</th>
+                        <th style="padding: 1rem;">Status</th>
+                        <th style="padding: 1rem;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="apps-table-body">
+                    <!-- Loaded via JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="module">
+        import { db } from '../js/db.js';
+
+        const tableBody = document.getElementById('apps-table-body');
+
+        function loadApps() {
+            const apps = db.getApplications();
+            if (apps.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" style="padding: 3rem; text-align: center; color: #999;">No applications received yet.</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = '';
+            apps.forEach(app => {
+                const tr = document.createElement('tr');
+                tr.style.borderBottom = '1px solid #eee';
+                tr.innerHTML = `
+                    <td style="padding: 1rem;">
+                        <div style="font-weight: 600;">${app.name}</div>
+                        <div style="font-size: 0.8rem; color: #666;">${app.phone}</div>
+                    </td>
+                    <td style="padding: 1rem;">${app.role}</td>
+                    <td style="padding: 1rem;">${app.area || 'N/A'}</td>
+                    <td style="padding: 1rem;"><span style="background: #fff3e0; color: #ef6c00; padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.8rem;">${app.status}</span></td>
+                    <td style="padding: 1rem;">
+                        <button class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Review</button>
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        loadApps();
+    </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Products | Sakhi Care</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <nav id="navbar" class="scrolled">
+        <div class="logo">
+            <i class="fas fa-heart"></i> SAKHI CARE
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="programs.html">Programs</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="network.html">Network</a></li>
+            <li><a href="hiring.html">Join Us</a></li>
+        </ul>
+        <a href="hiring.html" class="btn btn-primary">Join Mission</a>
+    </nav>
+
+    <header class="section-padding" style="background: var(--bg-light); margin-top: 80px;">
+        <div class="container" style="text-align: center;">
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Sakhi Products</h1>
+            <p style="color: var(--text-muted); max-width: 700px; margin: 0 auto;">
+                High-quality hygiene products created by women for women. Every purchase supports our empowerment programs.
+            </p>
+        </div>
+    </header>
+
+    <section class="section-padding">
+        <div class="container">
+            <div id="product-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
+                <!-- Dynamically loaded -->
+            </div>
+
+            <div class="glass" style="margin-top: 6rem; padding: 4rem; border-radius: 40px; text-align: center; background: var(--grad-surface);">
+                <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Bulk Orders & Distribution</h2>
+                <p style="margin-bottom: 2.5rem; color: var(--text-muted); max-width: 600px; margin-inline: auto;">
+                    Interested in distributing Sakhi Care products in your area or placing a bulk order for your NGO/Company? Get in touch with us.
+                </p>
+                <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                    <a href="https://wa.me/918821885577" class="btn btn-primary" style="background: #25D366; border: none;"><i class="fab fa-whatsapp"></i> WhatsApp Inquiry</a>
+                    <a href="contact.html" class="btn btn-outline">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo" style="color: var(--white); margin-bottom: 1.5rem;"><i class="fas fa-heart"></i> SAKHI CARE</div>
+                    <p style="color: #ccc;">Empowering women through health, education, and economic independence.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { db } from './js/db.js';
+
+        const productGrid = document.getElementById('product-grid');
+        const products = db.getProducts();
+
+        products.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <img src="${p.image}" alt="${p.name}" style="width: 100%; height: 300px; object-fit: cover;">
+                <div style="padding: 2.5rem;">
+                    <h3 style="margin-bottom: 0.5rem; font-size: 1.8rem;">${p.name}</h3>
+                    <div style="font-size: 1.5rem; color: var(--primary); font-weight: 700; margin-bottom: 1rem;">₹${p.price}</div>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">${p.description}</p>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="https://wa.me/918821885577?text=I'm interested in ${p.name}" class="btn btn-primary" style="flex: 1;"><i class="fab fa-whatsapp"></i> Order Now</a>
+                    </div>
+                </div>
+            `;
+            productGrid.appendChild(card);
+        });
+    </script>
+</body>
+</html>

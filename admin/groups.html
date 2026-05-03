@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Groups | Sakhi Care Admin</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { display: flex; background: #f0f2f5; }
+        .sidebar { width: 280px; height: 100vh; background: #1a1a1a; color: white; padding: 2rem; position: fixed; }
+        .main-content { margin-left: 280px; width: calc(100% - 280px); padding: 3rem; }
+        .sidebar-links { list-style: none; margin-top: 3rem; }
+        .sidebar-links a { color: #ccc; text-decoration: none; display: flex; align-items: center; gap: 1rem; padding: 0.8rem 1rem; border-radius: 10px; }
+        .sidebar-links a.active { background: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo"><i class="fas fa-heart"></i> SAKHI ADMIN</div>
+        <ul class="sidebar-links">
+            <li><a href="index.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="programs.html"><i class="fas fa-tasks"></i> Programs</a></li>
+            <li><a href="applications.html"><i class="fas fa-user-tie"></i> Applications</a></li>
+            <li><a href="groups.html" class="active"><i class="fas fa-users"></i> Groups</a></li>
+            <li><a href="products.html"><i class="fas fa-box"></i> Products</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+            <h1>Group System</h1>
+            <button class="btn btn-primary"><i class="fas fa-plus"></i> Create New Group</button>
+        </div>
+        <div class="glass" style="padding: 2rem; border-radius: 20px;">
+            <p style="text-align: center; color: #999; padding: 4rem;">Group tracking system initialized. 450+ groups synced from legacy system.</p>
+        </div>
+    </div>
+</body>
+</html>

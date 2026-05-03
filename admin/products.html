@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Products | Sakhi Care Admin</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { display: flex; background: #f0f2f5; }
+        .sidebar { width: 280px; height: 100vh; background: #1a1a1a; color: white; padding: 2rem; position: fixed; }
+        .main-content { margin-left: 280px; width: calc(100% - 280px); padding: 3rem; }
+        .sidebar-links { list-style: none; margin-top: 3rem; }
+        .sidebar-links a { color: #ccc; text-decoration: none; display: flex; align-items: center; gap: 1rem; padding: 0.8rem 1rem; border-radius: 10px; }
+        .sidebar-links a.active { background: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo"><i class="fas fa-heart"></i> SAKHI ADMIN</div>
+        <ul class="sidebar-links">
+            <li><a href="index.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="programs.html"><i class="fas fa-tasks"></i> Programs</a></li>
+            <li><a href="applications.html"><i class="fas fa-user-tie"></i> Applications</a></li>
+            <li><a href="groups.html"><i class="fas fa-users"></i> Groups</a></li>
+            <li><a href="products.html" class="active"><i class="fas fa-box"></i> Products</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+            <h1>Product Management</h1>
+            <button class="btn btn-primary"><i class="fas fa-plus"></i> Add Product</button>
+        </div>
+        <div class="glass" style="padding: 2rem; border-radius: 20px;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="text-align: left; border-bottom: 2px solid #eee;">
+                        <th style="padding: 1rem;">Product</th>
+                        <th style="padding: 1rem;">Price</th>
+                        <th style="padding: 1rem;">Status</th>
+                        <th style="padding: 1rem;">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="products-table-body">
+                    <!-- Loaded via JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script type="module">
+        import { db } from '../js/db.js';
+        const tableBody = document.getElementById('products-table-body');
+        db.getProducts().forEach(p => {
+            const tr = document.createElement('tr');
+            tr.style.borderBottom = '1px solid #eee';
+            tr.innerHTML = `
+                <td style="padding: 1rem; display: flex; align-items: center; gap: 1rem;">
+                    <img src="../${p.image}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+                    <strong>${p.name}</strong>
+                </td>
+                <td style="padding: 1rem;">₹${p.price}</td>
+                <td style="padding: 1rem;"><span style="background: #e8f5e9; color: #2e7d32; padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.8rem;">Active</span></td>
+                <td style="padding: 1rem;"><button class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Edit</button></td>
+            `;
+            tableBody.appendChild(tr);
+        });
+    </script>
+</body>
+</html>
