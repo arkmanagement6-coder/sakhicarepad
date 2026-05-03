@@ -1,25 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
-    /* Brand Colors */
-    --primary: #e91e63;
-    --primary-light: #ff6090;
-    --primary-dark: #b0003a;
-    --secondary: #009688;
-    --secondary-light: #52c7b8;
-    --secondary-dark: #00675b;
-    --accent: #673ab7;
+    /* Brand Colors (Sakhi Hub Palette) */
+    --primary: #f00078; /* Vibrant Pink from logo */
+    --primary-light: #ff4d94;
+    --primary-dark: #c00060;
+    --secondary: #4a148c; /* Deep Purple from logo */
+    --secondary-light: #7c43bd;
+    --secondary-dark: #12005e;
+    --accent: #ff2e8c;
     
     /* Neutral Colors */
-    --bg-white: #fcfcfc;
-    --bg-light: #f5f7fa;
-    --text-dark: #1a1a1a;
-    --text-muted: #666666;
+    --bg-white: #ffffff;
+    --bg-light: #fef1f6; /* Subtle pinkish white */
+    --text-dark: #2d001e; /* Dark purple-tinted black */
+    --text-muted: #6a4c5e;
     --white: #ffffff;
     
     /* Gradients */
-    --grad-primary: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-    --grad-surface: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.4) 100%);
+    --grad-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    --grad-surface: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
     
     /* Shadows */
     --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
