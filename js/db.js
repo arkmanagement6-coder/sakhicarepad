@@ -1,72 +1,86 @@
+const CONFIG = {
+    brandName: 'SakhiHub',
+    tagline: 'Empowering Women Across India',
+    phone: '8076611842',
+    whatsapp: '8076611842',
+    email: 'contact@sakhihub.in',
+    googleForm: 'https://forms.gle/oX8yX4UgUMmVvp8J9'
+};
+
 const INITIAL_PROGRAMS = [
     {
         id: 'p1',
-        title: 'Menstrual Hygiene Campaign',
-        shortDesc: 'Breaking taboos and providing safe hygiene solutions for rural women.',
+        title: 'मासिक धर्म स्वच्छता जागरूकता',
+        titleEn: 'Menstrual Hygiene Awareness',
+        shortDesc: 'गांव-गांव जाकर महिलाओं और बेटियों को period hygiene की जानकारी देना।',
         image: 'assets/images/menstrual_hygiene_program.png',
         status: 'Active',
-        category: 'Health',
+        category: 'Awareness',
         content: {
-            about: 'Our flagship campaign focused on education and distribution of organic pads.',
-            problem: 'Lack of awareness and access to sanitary products leads to health issues and school dropouts.',
-            solution: 'Educational workshops combined with local production and distribution.',
-            activities: ['Community Workshops', 'School Sessions', 'Sanitary Pad Distribution']
+            about: 'SakhiHub गांव-गांव जाकर महिलाओं और बेटियों को period hygiene, sanitary pad use, infection prevention, safe disposal और health awareness की जानकारी देता है।',
+            problem: 'Lack of awareness and taboos around menstruation leading to infections.',
+            solution: 'Educational workshops and access to quality pads.',
+            activities: ['Community Awareness', 'School Sessions', 'Distribution']
         }
     },
     {
         id: 'p2',
-        title: 'Women Employment Program',
-        shortDesc: 'Creating sustainable livelihoods through local manufacturing and distribution.',
-        image: 'assets/images/women_employment_program.png',
-        status: 'Active',
-        category: 'Employment',
-        content: {
-            about: 'Empowering women by making them entrepreneurs and skilled workers.',
-            problem: 'Unemployment and financial dependency among rural women.',
-            solution: 'Setting up local production units for Sakhi Care products.',
-            activities: ['Skill Training', 'Business Management Support', 'Micro-finance Links']
-        }
-    },
-    {
-        id: 'p3',
-        title: 'MSME & Business Support',
-        shortDesc: 'Helping women-led small businesses scale with training and networking.',
-        image: 'assets/images/msme_support.png',
-        status: 'Active',
-        category: 'Business',
-        content: {
-            about: 'Technical and financial guidance for women starting small businesses.',
-            problem: 'Limited access to formal business training and markets.',
-            solution: 'Mentorship and market linkage programs.',
-            activities: ['MSME Registration Help', 'Packaging Support', 'Digital Marketing Training']
-        }
-    },
-    {
-        id: 'p4',
-        title: 'Skill Training Program',
-        shortDesc: 'Equipping women with modern skills for the digital and manufacturing age.',
-        image: 'assets/images/skill_training.png',
-        status: 'Active',
-        category: 'Growth',
-        content: {
-            about: 'Vocational training focused on market demand.',
-            problem: 'Skill gap hindering employment opportunities.',
-            solution: 'Certified training modules in various domains.',
-            activities: ['Tailoring', 'IT Basics', 'Customer Service']
-        }
-    },
-    {
-        id: 'p5',
-        title: 'Health Awareness',
-        shortDesc: 'Comprehensive health checkups and education for village communities.',
+        title: 'महिला स्वास्थ्य एवं स्वच्छता',
+        titleEn: 'Women Health & Hygiene',
+        shortDesc: 'महिलाओं के संपूर्ण स्वास्थ्य और व्यक्तिगत स्वच्छता के लिए समर्पित।',
         image: 'assets/images/health_awareness.png',
         status: 'Active',
         category: 'Health',
         content: {
-            about: 'General health camps focusing on maternal and child health.',
-            problem: 'Poor healthcare access in remote villages.',
-            solution: 'Mobile health clinics and volunteer networks.',
-            activities: ['Regular Checkups', 'Nutrition Awareness', 'Maternal Care']
+            about: 'Comprehensive health programs for rural women.',
+            problem: 'Poor healthcare facilities and general health ignorance.',
+            solution: 'Mobile health checkups and nutrition education.',
+            activities: ['Health Camps', 'Nutrition Guide', 'Mental Health Support']
+        }
+    },
+    {
+        id: 'p3',
+        title: 'महिला सशक्तिकरण',
+        titleEn: 'Women Empowerment',
+        shortDesc: 'महिलाओं को सामाजिक और आर्थिक रूप से सशक्त बनाना।',
+        image: 'assets/images/women_employment_program.png',
+        status: 'Active',
+        category: 'Empowerment',
+        content: {
+            about: 'Social and economic empowerment through networking.',
+            problem: 'Gender inequality and lack of decision-making power.',
+            solution: 'Self-Help Groups (SHG) and leadership training.',
+            activities: ['Group Formation', 'Leadership Workshops', 'Financial Literacy']
+        }
+    },
+    {
+        id: 'p4',
+        title: 'शिक्षा एवं कौशल विकास',
+        titleEn: 'Education & Skill Development',
+        shortDesc: 'आधुनिक कौशलों के साथ महिलाओं के भविष्य का निर्माण।',
+        image: 'assets/images/hero3.png',
+        status: 'Active',
+        category: 'Skill',
+        content: {
+            about: 'Skill training programs for better employability.',
+            problem: 'Skill gap in rural areas.',
+            solution: 'Certified vocational training courses.',
+            activities: ['Tailoring', 'Digital Literacy', 'Handicrafts']
+        }
+    },
+    {
+        id: 'p5',
+        title: 'रोजगार एवं आत्मनिर्भरता',
+        titleEn: 'Employment & Independence',
+        shortDesc: 'स्वयं का व्यवसाय शुरू करने के अवसर और आर्थिक आजादी।',
+        image: 'assets/images/hero2.png',
+        status: 'Active',
+        category: 'Business',
+        content: {
+            about: 'Creating entrepreneurs at the village level.',
+            problem: 'Unemployment and financial dependency.',
+            solution: 'MSME support and delivery partner network.',
+            activities: ['MSME Registration', 'Business Mentorship', 'Market Linkage']
         }
     }
 ];
@@ -75,15 +89,21 @@ const INITIAL_PRODUCTS = [
     {
         id: 'prod1',
         name: 'Sakhi Regular Pack',
-        price: '40',
-        description: 'Pack of 8 ultra-thin organic pads.',
+        pads: '16 Pads',
+        mrp: '100',
+        price: '80',
+        features: ['Regular + XL', 'Day Use', 'Soft & Comfortable', 'Leak Protection'],
+        description: 'Perfect for daily protection with maximum comfort.',
         image: 'assets/images/sakhi_care_pads_product.png'
     },
     {
         id: 'prod2',
         name: 'Sakhi Family Pack',
-        price: '150',
-        description: 'Value pack for the entire family, 32 pads.',
+        pads: '24 Pads',
+        mrp: '150',
+        price: '120',
+        features: ['XL + XXL', 'Day & Night Protection', 'High Absorbency', 'Skin Friendly'],
+        description: 'Value pack for complete protection during heavy flow.',
         image: 'assets/images/sakhi_care_pads_product.png'
     }
 ];
@@ -103,12 +123,13 @@ class Database {
         if (!localStorage.getItem('sakhi_applications')) {
             localStorage.setItem('sakhi_applications', JSON.stringify([]));
         }
-        if (!localStorage.getItem('sakhi_groups')) {
-            localStorage.setItem('sakhi_groups', JSON.stringify([]));
+        if (!localStorage.getItem('sakhi_inquiries')) {
+            localStorage.setItem('sakhi_inquiries', JSON.stringify([]));
         }
     }
 
-    // Programs
+    getConfig() { return CONFIG; }
+
     getPrograms() {
         return JSON.parse(localStorage.getItem('sakhi_programs'));
     }
@@ -123,15 +144,13 @@ class Database {
         localStorage.setItem('sakhi_programs', JSON.stringify(programs));
     }
 
-    // Products
     getProducts() {
         return JSON.parse(localStorage.getItem('sakhi_products'));
     }
 
-    // Applications
     addApplication(app) {
         const apps = JSON.parse(localStorage.getItem('sakhi_applications'));
-        apps.push({ ...app, id: Date.now().toString(), date: new Date().toISOString(), status: 'Pending' });
+        apps.push({ ...app, id: Date.now().toString(), date: new Date().toISOString(), status: 'New' });
         localStorage.setItem('sakhi_applications', JSON.stringify(apps));
     }
 
@@ -139,9 +158,14 @@ class Database {
         return JSON.parse(localStorage.getItem('sakhi_applications'));
     }
 
-    // Groups
-    getGroups() {
-        return JSON.parse(localStorage.getItem('sakhi_groups'));
+    addInquiry(inquiry) {
+        const inqs = JSON.parse(localStorage.getItem('sakhi_inquiries'));
+        inqs.push({ ...inquiry, id: Date.now().toString(), date: new Date().toISOString(), status: 'New' });
+        localStorage.setItem('sakhi_inquiries', JSON.stringify(inqs));
+    }
+
+    getInquiries() {
+        return JSON.parse(localStorage.getItem('sakhi_inquiries'));
     }
 }
 

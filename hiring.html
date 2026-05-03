@@ -1,64 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join Our Mission | Sakhi Hub</title>
+    <title>Hiring | SakhiHub</title>
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 3rem;
-            flex-wrap: wrap;
-        }
-        .tab-btn {
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            border: 1px solid #ddd;
-            background: white;
-            cursor: pointer;
-            font-weight: 600;
-            transition: var(--trans);
-        }
-        .tab-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-            box-shadow: var(--shadow-md);
-        }
-        .tab-content {
-            display: none;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .tab-content.active {
-            display: block;
-            animation: fadeInUp 0.5s forwards;
-        }
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        input, select, textarea {
-            width: 100%;
-            padding: 1rem;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            background: #f9f9f9;
-            font-size: 1rem;
-        }
-        input:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: white;
-        }
+        .tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; }
+        .tab-btn { padding: 1rem 2rem; border-radius: 50px; border: 1px solid #ddd; background: white; cursor: pointer; font-weight: 600; }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .tab-content { display: none; animation: fadeInUp 0.5s forwards; }
+        .tab-content.active { display: block; }
     </style>
 </head>
 <body>
@@ -69,19 +22,21 @@
         </div>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
             <li><a href="programs.html">Programs</a></li>
+            <li><a href="campaign.html">Campaign</a></li>
             <li><a href="products.html">Products</a></li>
-            <li><a href="network.html">Network</a></li>
-            <li><a href="hiring.html">Join Us</a></li>
+            <li><a href="delivery-partner.html">Partner</a></li>
+            <li><a href="hiring.html">Hiring</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
-        <a href="hiring.html" class="btn btn-primary">Join Mission</a>
     </nav>
 
     <header class="section-padding" style="background: var(--grad-primary); color: white; margin-top: 80px; text-align: center;">
         <div class="container">
-            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Join Our Mission</h1>
-            <p style="opacity: 0.9; max-width: 700px; margin: 0 auto;">
-                We are looking for passionate individuals to lead our programs at various levels. Choose a role that fits your experience and apply today.
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Join Our Female Team</h1>
+            <p style="opacity: 0.9; max-width: 800px; margin: 0 auto; font-size: 1.2rem;">
+                SakhiHub के साथ जुड़कर महिलाओं के स्वास्थ्य और सशक्तिकरण के लिए काम करें।
             </p>
         </div>
     </header>
@@ -89,111 +44,58 @@
     <section class="section-padding">
         <div class="container">
             <div class="tabs">
-                <button class="tab-btn active" onclick="showTab('block')">Block Level</button>
-                <button class="tab-btn" onclick="showTab('district')">District Level</button>
-                <button class="tab-btn" onclick="showTab('volunteer')">Volunteer</button>
+                <button class="tab-btn active" onclick="showTab('block')">Block Level Employee</button>
+                <button class="tab-btn" onclick="showTab('district')">District Coordinator</button>
             </div>
 
-            <div id="block" class="tab-content active glass" style="padding: 3rem; border-radius: 30px;">
-                <h2 style="margin-bottom: 2rem; text-align: center;">Apply for Block Coordinator</h2>
-                <form onsubmit="handleSubmit(event, 'Block Level')">
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" name="name" required placeholder="Enter your full name">
+            <div id="block" class="tab-content active">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+                    <div class="glass" style="padding: 3rem; border-radius: 30px;">
+                        <h2 style="color: var(--primary); margin-bottom: 1.5rem;">Block Level Female Employee</h2>
+                        <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem;">Salary: ₹16,000 + ₹3,000 Petrol</div>
+                        <h3 style="margin-bottom: 1rem;">Key Responsibilities:</h3>
+                        <ul style="margin-bottom: 2rem;">
+                            <li>गांव-गांव जाकर जागरूकता अभियान चलाना</li>
+                            <li>महिलाओं के नए ग्रुप बनाना</li>
+                            <li>स्वच्छता और Sanitary Pad जागरूकता देना</li>
+                            <li>Daily reporting और data submission</li>
+                        </ul>
+                        <a href="https://forms.gle/oX8yX4UgUMmVvp8J9" target="_blank" class="btn btn-primary" style="width: 100%;">Apply Now (Google Form)</a>
                     </div>
-                    <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="tel" name="phone" required placeholder="Enter your mobile number">
+                    <div>
+                        <img src="assets/images/women_employment_program.png" alt="Field Work" style="width: 100%; border-radius: 20px;">
                     </div>
-                    <div class="form-group">
-                        <label>Block Name</label>
-                        <input type="text" name="area" required placeholder="Which block do you want to cover?">
-                    </div>
-                    <div class="form-group">
-                        <label>Why do you want to join Sakhi Care?</label>
-                        <textarea name="reason" rows="4" placeholder="Tell us about your motivation"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Application</button>
-                </form>
+                </div>
             </div>
 
-            <div id="district" class="tab-content glass" style="padding: 3rem; border-radius: 30px;">
-                <h2 style="margin-bottom: 2rem; text-align: center;">Apply for District Head</h2>
-                <form onsubmit="handleSubmit(event, 'District Level')">
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" name="name" required placeholder="Enter your full name">
+            <div id="district" class="tab-content">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+                    <div class="glass" style="padding: 3rem; border-radius: 30px;">
+                        <h2 style="color: var(--secondary); margin-bottom: 1.5rem;">District Coordinator Female</h2>
+                        <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem;">Salary: ₹22,000 + ₹3,000 Petrol</div>
+                        <h3 style="margin-bottom: 1rem;">Key Responsibilities:</h3>
+                        <ul style="margin-bottom: 2rem;">
+                            <li>Block level टीम को मैनेज करना</li>
+                            <li>5–10 ब्लॉक का नियमित दौरा करना</li>
+                            <li>Field monitoring और ऑनलाइन मीटिंग्स</li>
+                            <li>डिस्ट्रिक्ट लेवल रिपोर्ट तैयार करना</li>
+                        </ul>
+                        <a href="https://forms.gle/oX8yX4UgUMmVvp8J9" target="_blank" class="btn btn-primary" style="width: 100%; background: var(--secondary);">Apply Now (Google Form)</a>
                     </div>
-                    <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="tel" name="phone" required placeholder="Enter your mobile number">
+                    <div>
+                        <img src="assets/images/hero_empowerment.png" alt="Coordinator Role" style="width: 100%; border-radius: 20px;">
                     </div>
-                    <div class="form-group">
-                        <label>District Name</label>
-                        <input type="text" name="area" required placeholder="Which district do you want to lead?">
-                    </div>
-                    <div class="form-group">
-                        <label>Previous Experience</label>
-                        <textarea name="experience" rows="4" placeholder="Briefly describe your leadership experience"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Application</button>
-                </form>
-            </div>
-
-            <div id="volunteer" class="tab-content glass" style="padding: 3rem; border-radius: 30px;">
-                <h2 style="margin-bottom: 2rem; text-align: center;">Become a Volunteer</h2>
-                <form onsubmit="handleSubmit(event, 'Volunteer')">
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" name="name" required placeholder="Enter your full name">
-                    </div>
-                    <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="tel" name="phone" required placeholder="Enter your mobile number">
-                    </div>
-                    <div class="form-group">
-                        <label>Availability</label>
-                        <select name="availability">
-                            <option>Weekends</option>
-                            <option>Full Time</option>
-                            <option>Part Time (Evening)</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Join as Volunteer</button>
-                </form>
+                </div>
             </div>
         </div>
     </section>
 
-    <footer>
-        <div class="container">
-            <div style="text-align: center; color: #ccc;">
-                &copy; 2026 Sakhi Hub. Empowering India.
-            </div>
-        </div>
-    </footer>
-
-    <script type="module">
-        import { db } from './js/db.js';
-
-        window.showTab = function(tabId) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    <script>
+        function showTab(id) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            
-            document.getElementById(tabId).classList.add('active');
+            document.getElementById(id).classList.add('active');
             event.currentTarget.classList.add('active');
-        }
-
-        window.handleSubmit = function(event, role) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData.entries());
-            data.role = role;
-
-            db.addApplication(data);
-            
-            alert('Application submitted successfully! Our team will contact you soon.');
-            event.target.reset();
         }
     </script>
 </body>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | SakhiHub</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <nav id="navbar" class="scrolled">
+        <div class="logo">
+            <img src="assets/branding/logo_icon.jpg" alt="Sakhi Hub Logo" style="height: 40px; border-radius: 50%;"> SAKHI HUB
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="programs.html">Programs</a></li>
+            <li><a href="campaign.html">Campaign</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="delivery-partner.html">Partner</a></li>
+            <li><a href="hiring.html">Hiring</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header class="section-padding" style="background: var(--bg-light); margin-top: 80px;">
+        <div class="container" style="text-align: center;">
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Contact Us</h1>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">
+                Have questions or want to partner with us? Reach out today.
+            </p>
+        </div>
+    </header>
+
+    <section class="section-padding">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;">
+                <div>
+                    <h2 style="margin-bottom: 2rem;">Get In Touch</h2>
+                    <div style="margin-bottom: 2rem;">
+                        <h3><i class="fab fa-whatsapp" style="color: #25D366;"></i> WhatsApp / Call</h3>
+                        <p style="font-size: 1.5rem; font-weight: 700;">8076611842</p>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <h3><i class="fas fa-envelope" style="color: var(--primary);"></i> Email</h3>
+                        <p style="font-size: 1.2rem;">contact@sakhihub.in</p>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <h3><i class="fas fa-location-dot" style="color: var(--secondary);"></i> Headquarters</h3>
+                        <p style="font-size: 1.1rem;">Agra, Uttar Pradesh, India</p>
+                    </div>
+                </div>
+
+                <div class="glass" style="padding: 3rem; border-radius: 30px;">
+                    <form onsubmit="event.preventDefault(); alert('Message sent successfully!');">
+                        <div style="margin-bottom: 1.5rem;">
+                            <label>Full Name</label>
+                            <input type="text" style="width: 100%; padding: 0.8rem; border-radius: 10px; border: 1px solid #ddd;" required>
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label>Mobile Number</label>
+                            <input type="tel" style="width: 100%; padding: 0.8rem; border-radius: 10px; border: 1px solid #ddd;" required>
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label>District</label>
+                            <input type="text" style="width: 100%; padding: 0.8rem; border-radius: 10px; border: 1px solid #ddd;" required>
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label>Interested In</label>
+                            <select style="width: 100%; padding: 0.8rem; border-radius: 10px; border: 1px solid #ddd;">
+                                <option>Campaign</option>
+                                <option>Hiring</option>
+                                <option>Delivery Partner</option>
+                                <option>Product</option>
+                                <option>Partnership</option>
+                            </select>
+                        </div>
+                        <div style="margin-bottom: 2rem;">
+                            <label>Message</label>
+                            <textarea style="width: 100%; padding: 0.8rem; border-radius: 10px; border: 1px solid #ddd;" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/918076611842" style="position: fixed; bottom: 30px; right: 30px; background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: var(--shadow-lg); z-index: 1000; text-decoration: none;">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <footer>
+        <div class="container" style="text-align: center; color: #ccc;">
+            &copy; 2026 SakhiHub. All rights reserved.
+        </div>
+    </footer>
+</body>
+</html>
