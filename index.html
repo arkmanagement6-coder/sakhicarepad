@@ -24,24 +24,59 @@
         <a href="hiring.html" class="btn btn-primary">Join Mission</a>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero section-padding" style="background: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('assets/images/hero_empowerment.png'); background-size: cover; background-position: center; min-height: 100vh; display: flex; align-items: center;">
-        <div class="container">
-            <div class="hero-content animate-up" style="max-width: 600px;">
-                <h1 style="font-size: 4rem; line-height: 1.1; margin-bottom: 1.5rem; color: var(--text-dark);">Empowering <span style="color: var(--primary);">Women</span> Across India</h1>
-                <p style="font-size: 1.2rem; margin-bottom: 2.5rem; color: var(--text-muted);">
-                    We are building a future where every woman has access to health, employment, and growth. Join our multi-program initiative to make a real impact.
-                </p>
-                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                    <a href="programs.html" class="btn btn-primary">Explore Programs</a>
-                    <a href="hiring.html" class="btn btn-outline">Apply Now</a>
-                </div>
-                <div style="margin-top: 3rem; display: flex; gap: 2rem; border-left: 4px solid var(--primary); padding-left: 1.5rem;">
-                    <div><strong style="color: var(--primary);">Health</strong></div>
-                    <div><strong style="color: var(--secondary);">Employment</strong></div>
-                    <div><strong style="color: var(--accent);">Growth</strong></div>
+    <!-- Hero Slider Section -->
+    <section class="hero" id="home">
+        <div class="slide active" style="background-image: url('assets/images/hero1.png');">
+            <div class="container">
+                <div class="hero-content animate-up" style="max-width: 650px;">
+                    <span style="color: var(--primary-light); font-weight: 600; text-transform: uppercase; letter-spacing: 2px;">Health & Hygiene</span>
+                    <h1 style="font-size: 4rem; line-height: 1.1; margin-bottom: 1.5rem;">Empowering <span style="color: var(--primary-light);">Women</span> Through Health</h1>
+                    <p style="font-size: 1.2rem; margin-bottom: 2.5rem;">
+                        Our mission starts with health awareness. Breaking taboos and providing safe hygiene solutions for every woman in India.
+                    </p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <a href="programs.html" class="btn btn-primary">Our Campaigns</a>
+                        <a href="hiring.html" class="btn btn-outline" style="border-color: white; color: white;">Join Mission</a>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div class="slide" style="background-image: url('assets/images/hero2.png');">
+            <div class="container">
+                <div class="hero-content animate-up" style="max-width: 650px;">
+                    <span style="color: var(--primary-light); font-weight: 600; text-transform: uppercase; letter-spacing: 2px;">Employment & MSME</span>
+                    <h1 style="font-size: 4rem; line-height: 1.1; margin-bottom: 1.5rem;">Creating <span style="color: var(--primary-light);">Livelihoods</span> and Independence</h1>
+                    <p style="font-size: 1.2rem; margin-bottom: 2.5rem;">
+                        Supporting women-led small businesses and creating local manufacturing opportunities for economic growth.
+                    </p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <a href="programs.html" class="btn btn-primary">Business Support</a>
+                        <a href="hiring.html" class="btn btn-outline" style="border-color: white; color: white;">Apply Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide" style="background-image: url('assets/images/hero3.png');">
+            <div class="container">
+                <div class="hero-content animate-up" style="max-width: 650px;">
+                    <span style="color: var(--primary-light); font-weight: 600; text-transform: uppercase; letter-spacing: 2px;">Skill & Growth</span>
+                    <h1 style="font-size: 4rem; line-height: 1.1; margin-bottom: 1.5rem;">Building <span style="color: var(--primary-light);">Futures</span> Through Training</h1>
+                    <p style="font-size: 1.2rem; margin-bottom: 2.5rem;">
+                        Equipping women with modern skills for the digital age. From vocational training to leadership development.
+                    </p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <a href="programs.html" class="btn btn-primary">Explore Skills</a>
+                        <a href="hiring.html" class="btn btn-outline" style="border-color: white; color: white;">Volunteer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slider Dots -->
+        <div class="slider-dots">
+            <div class="dot active" onclick="goToSlide(0)"></div>
+            <div class="dot" onclick="goToSlide(1)"></div>
+            <div class="dot" onclick="goToSlide(2)"></div>
         </div>
     </section>
 
@@ -183,6 +218,36 @@
                 nav.classList.remove('scrolled');
             }
         });
+
+        // Hero Slider Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function showSlide(n) {
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        window.goToSlide = function(n) {
+            showSlide(n);
+            resetTimer();
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        let timer = setInterval(nextSlide, 5000);
+
+        function resetTimer() {
+            clearInterval(timer);
+            timer = setInterval(nextSlide, 5000);
+        }
     </script>
 </body>
 </html>
